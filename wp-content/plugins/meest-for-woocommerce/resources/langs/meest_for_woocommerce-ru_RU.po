@@ -1,0 +1,477 @@
+# Translation of Meest for WooCommerce in Russian
+# This file is distributed under the same license as the Meest for WooCommerce package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-04-28 14:29+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 2.4.2\n"
+"Language: ru\n"
+"Project-Id-Version: Meest for WooCommerce\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+msgid "About"
+msgstr "О плагине"
+
+msgid "Address"
+msgstr "Адрес"
+
+msgid "Address delivery"
+msgstr "Адресная доставка"
+
+msgid "Address details"
+msgstr "Подробности адреса"
+
+msgid "Agent"
+msgstr "Агент"
+
+msgid "ATM"
+msgstr "Почтомат"
+
+msgid "Barcode"
+msgstr "Штрих-код"
+
+msgid "Building"
+msgstr "Дом"
+
+msgid "Branch"
+msgstr "Отделение"
+
+msgid "Branch delivery"
+msgstr "Доставка в отделение"
+
+msgid "Calculate shipping cost"
+msgstr "Рассчитать стоимость доставки"
+
+msgid "Code"
+msgstr "Код"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "СOD"
+msgstr "Наложенный платеж"
+
+msgid "COD"
+msgstr ""
+
+msgid "Created at"
+msgstr "Дата создания"
+
+msgid "Create pickup"
+msgstr "Создать вызов курьера"
+
+msgid "Create parcel"
+msgstr "Создать посылку"
+
+msgid "Create parcel for order #"
+msgstr "Создать посылку для заказа №"
+
+msgid "City"
+msgstr "Город"
+
+msgid "Cash"
+msgstr "Наличными"
+
+msgid "Cost services"
+msgstr "Стоимость услуг"
+
+msgid "Custom"
+msgstr "Специальное"
+
+msgid "Create pickup for %s parcels"
+msgstr "Создать вызов курьера для %s посылок"
+
+msgid "cm"
+msgstr "см"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Delivery type"
+msgstr "Тип доставки"
+
+msgid "Delivery date"
+msgstr "Дата доставки"
+
+msgid "Declaration"
+msgstr "Декларация"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Event"
+msgstr "Событие"
+
+msgid "Edit parcel #%s"
+msgstr "Редактировать посылку № %s"
+
+msgid "Edit parcel #%s for order #%s"
+msgstr "Редактировать посылку № %s для заказа № %s"
+
+msgid "Enter delivery address"
+msgstr "Введите адрес доставки"
+
+msgid "Edit pickup #%s"
+msgstr "Редактировать вызов курьера № %s"
+
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid "Email"
+msgstr "Э-почта"
+
+msgid "Email was sent."
+msgstr "Электронное письмо отправлено."
+
+msgid "First name"
+msgstr "Имя"
+
+msgid "Flat"
+msgstr "Квартира"
+
+msgid "Fixed shipping cost"
+msgstr "Фиксированная стоимость доставки"
+
+msgid "Filter branches"
+msgstr "Фильтровать отделения"
+
+msgid "Group items in one package"
+msgstr "Объединить товары в один пакет"
+
+msgid "Hello %s."
+msgstr "Привет %s."
+
+msgid "Just to let you know - we`ve shipped your order #%s by Meest."
+msgstr "Просто сообщить - мы отправили ваш заказ # %s компанией Meest."
+
+msgid "In detail"
+msgstr "Подробно"
+
+msgid "Insurance"
+msgstr "Страхование"
+
+msgid "insurance - %s"
+msgstr "страхование - %s"
+
+msgid "Invoice"
+msgstr "Накладная"
+
+msgid "Invoice number"
+msgstr "Номер накладной"
+
+msgid "If you do not have an API key, you can get it by following the link"
+msgstr "Если у вас нет ключа API, вы можете получить его, перейдя по ссылке"
+
+msgid "If the value is empty, the cost is calculated automatically"
+msgstr "Если значение пустое, стоимость вычисляется автоматически"
+
+msgid "If checked, СOD will be set by price of items"
+msgstr "Если установить этот флажок, наложенный платеж будет определяться по цене товаров"
+
+msgid "If checked, all items will be group in one package"
+msgstr "Если установить этот флажок, все товары будут объединены в один пакет"
+
+msgid "If checked, the delivery cost will be displayed"
+msgstr "Если обозначено, стоимость доставки будет отображаться"
+
+msgid "If you have questions about having problems creating parcels, please contact our support"
+msgstr "Если у Вас есть вопросы или возникли проблемы с созданием посылок, то обращайтесь в нашу поддержки"
+
+msgid "kg"
+msgstr "кг"
+
+msgid "Last name"
+msgstr "Фамилия"
+
+msgid "Last updated at"
+msgstr "Последнее обновление"
+
+msgid "Length x Width x Height"
+msgstr "Длина х Ширина х Высота"
+
+msgid "Limits"
+msgstr "Ограничения"
+
+msgid "Middle name"
+msgstr "Отчество"
+
+msgid "Mobile phone"
+msgstr "Мобильный телефон"
+
+msgid "Notation"
+msgstr "Описание"
+
+msgid "Number"
+msgstr "Номер"
+
+msgid "Non cash"
+msgstr "Безналично"
+
+msgid "Order"
+msgstr "Заказ"
+
+msgid "Order ID"
+msgstr "ИД заказ"
+
+msgid "Order #%s was shipped!"
+msgstr "Заказ №%s отправлено!"
+
+msgid "Pay type"
+msgstr "Тип оплаты"
+
+msgid "Pack types"
+msgstr "Типы упаковки"
+
+msgid "Payer"
+msgstr "Плательщик"
+
+msgid "Parcel"
+msgstr "Посылка"
+
+msgid "Parcels"
+msgstr "Посылки"
+
+msgid "Parcel size"
+msgstr "Размер посылки"
+
+msgid "Parcel number: <strong>%s</strong>."
+msgstr "Номер посылки <strong>%s</ strong>."
+
+msgid "Pickup"
+msgstr "Вызов курьера"
+
+msgid "Pickups"
+msgstr "Вызовы курьера"
+
+msgid "Pickup information"
+msgstr "Информация о вызове курьера"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Parcel options"
+msgstr "Параметры посылки"
+
+msgid "Parcel was created."
+msgstr "Посылка создана."
+
+msgid "Parcel was updated."
+msgstr "Посылка обновлена."
+
+msgid "Parcel was deleted."
+msgstr "Посылка удалена."
+
+msgid "Parcel was pickuped."
+msgstr "Посылка добавлено к вызову курьера."
+
+msgid "Parcel was unpickuped."
+msgstr "Посылка удалена с вызова курьера."
+
+msgid "Pickup was created."
+msgstr "Вызовы курьера создан."
+
+msgid "Pickup was updated."
+msgstr "Вызовы курьера обновлен."
+
+msgid "Pickup was deleted."
+msgstr "Вызовы курьера удален."
+
+msgid "Invoice #%s by Meest"
+msgstr "Накладная №%s от Meest"
+
+msgid "Receiver"
+msgstr "Получатель"
+
+msgid "Sender"
+msgstr "Отправитель"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "Tracking number, phone, sender or receiver name"
+msgstr "Номер отслеживания, телефон, имя отправителя или получателя"
+
+msgid "Send email after change order status ”Shipped”"
+msgstr "Отправлять э-письмо после изменения статуса заказа ”Отправлено”"
+
+msgid "Shipping"
+msgstr "Доставка"
+
+msgid "Shipped"
+msgstr "Отправлено"
+
+msgid "Street"
+msgstr "Улица"
+
+msgid "Show limits for branches"
+msgstr "Показать лимиты для филиалов"
+
+msgid "Select from the list"
+msgstr "Выберите из списка"
+
+msgid "Select a country"
+msgstr "Выберите страну"
+
+msgid "Select a city"
+msgstr "Выберите город"
+
+msgid "Select a street"
+msgstr "Выберите улицу"
+
+msgid "Select a branch"
+msgstr "Выберите отделение"
+
+msgid "Settings"
+msgstr "Настройка"
+
+msgid "Setting saved!"
+msgstr "Настройка сохранено!"
+
+msgid "Sent email about parcel tracking"
+msgstr "Отправлено э-письмо об отслеживании посылки"
+
+msgid "Support"
+msgstr "Поддержка"
+
+msgid "Sticker"
+msgstr "Наклейка"
+
+msgid "size(lwh) - %sx%sx%s cm"
+msgstr "размеры (ДШВ) - %sx%sx%s см"
+
+msgid "Region"
+msgstr "Регион"
+
+msgid "required"
+msgstr "обязательное"
+
+msgid "Unpickup"
+msgstr "Отменить вызов"
+
+msgid "Tracking"
+msgstr "Отследить"
+
+msgid "Tracking number"
+msgstr "Номер отслеживания"
+
+msgid "Track parcel #"
+msgstr "Отслеживание посылки №"
+
+msgid "Tracking information is missing"
+msgstr "Информация об отслеживании данных"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Updated at"
+msgstr "Дата обновления"
+
+msgid "You can tracking your order at: <a href=\"%s\">%s</a>."
+msgstr "Вы можете отследить свой заказ по адресу: <a href=\"%s\">%s</a>."
+
+msgid "Weight"
+msgstr "Вес"
+
+msgid "weight - %s kg"
+msgstr "вес - %s кг"
+
+msgid "Write to us"
+msgstr "Написать нам"
+
+msgid "Meest - International Postal and Logistics Group, for detailed information - visit our website <a href=\"https://meest.com\">https://meest.com</a>."
+msgstr "Meest - Международная почтово-логистическая группа, для подробной информации - посетите наш сайт <a href=\"https://meest.com\">https://meest.com</a>."
+
+msgid "The “Meest for WooCommerce” plugin connects delivery from Meest to your online store, allows you to create invoices, courier calls and manage them."
+msgstr "Плагин \"Meest for WooCommerce\" подключает к Вашему интернет-магазина доставку от Мост, позволяет создавать накладные, вызовы курьеров и управлять ими."
+
+msgid "Go to the <a href=\"admin.php?page=meest_setting\">”Settings page”</a>."
+msgstr "Перейдите на страницу <a href=\"admin.php?page=meest_setting\">\"Настройка\"</a>."
+
+msgid "Enter the data to connect to the API and save the settings."
+msgstr "Введите данные для подключения API и сохраните настройки."
+
+msgid "If the settings are saved successfully, fill in other data."
+msgstr "Если настройки успешно сохранены, то заполняйте другие данные."
+
+msgid "Fill in the data about the Agent, phone in accordance with the international format."
+msgstr "Заполните данные о Агента, телефон в соответствии с международным формата."
+
+msgid "Fill in the data on the address of the parcel collection."
+msgstr "Заполните данные об адресе забора посылок."
+
+msgid "For Ukraine - available types of delivery: address and branch. City and street or branch - selected from the list."
+msgstr "Для Украины - доступные типы доставки: адрес и отделения. Город и улица или отделения - выбираются из списка."
+
+msgid "For other countries, only address delivery is available. Region, city, street - entered manually."
+msgstr "Для других стран доступна только адресная доставка. Регион, город, улица - вводятся вручную."
+
+msgid "Creating an empty parcel"
+msgstr "Создание пустой посылки"
+
+msgid "Go to the page <a href=\"admin.php?page=meest_parcel\">“Parcels”</a> and click the button “Create”."
+msgstr "Go to the page <a href=\"admin.php?page=meest_parcel\">\"Parcels\"</a> and click the button \"Create\"."
+
+msgid "To quickly create a parcel - select “Parcel“ from the top menu “Add“."
+msgstr "Для быстрого создания посылки - выберите из верхнего меню ”Добавить” пункт ”Посылка”."
+
+msgid "Fill in the parcel parameters."
+msgstr "Заполните параметры посылки."
+
+msgid "Types of packaging can be selected from the list or specify special sizes."
+msgstr "Типы упаковки можно выбрать из списка или указать специальные размеры."
+
+msgid "Filling in the address for the sender and recipient is the same as for the page <a href=\"admin.php?page=meest_setting\">”Settings”</a>."
+msgstr "Заполнение адреса для отправителя и получателя производится так же как и для страницы <a href=\"admin.php?page=meest_setting\">\"Настройка\"</a>."
+
+msgid "After creating a parcel, you can edit, delete, track, add to the ”Pickups”, cancel the ”Pickup” and print the declaration and sticker."
+msgstr "После создания посылки, ее можно редактировать, удалить, отследить, добавить в ”Вызов курьера”, отменить ”Вызов курьера” и распечатать деклацию и наклейку."
+
+msgid "Creating a parcel by the order"
+msgstr "Создание посылки через заказ"
+
+msgid "Go to the page <a href=\"edit.php?post_type=shop_order\">“Order”</a>."
+msgstr "Перейдите на страницу <a href=\"edit.php?post_type=shop_order\">\"Заказ\"</a>."
+
+msgid "For orders for which “Bridge” delivery is selected, the “Create parcel” button is displayed."
+msgstr "Для заказов, для которых выбрано доставку ”Мост” отображается кнопка ”Создать посылку”."
+
+msgid "Click the button ”Create Parcel” or open the order and click on the button ”Create Parcel” in the right pane."
+msgstr "Нажмите кнопку ”Создать посылку” или откройте заказ и нажмите на кнопку ”Создать посылку” в правой панели."
+
+msgid "Data is filled in automatically."
+msgstr "Заполнение данных производится автоматически."
+
+msgid "You can change or add information about the parcel, sender and recipient."
+msgstr "Можно изменять или дополнять данные о посылке, отправителя и получателя."
+
+msgid "After creating the parcel, the invoice number will be displayed in the orders or when you open the order, you can edit the parcel, track and print the declaration and the sticker."
+msgstr "После создания посылки, в заказах будет отображаться номер накладной или открытии заказ можно будет редактировать посылку, отследить и распечатать деклацию и наклейку."
+
+msgid "If you set the status to ”Shipped” for the order, the user will be automatically sent a letter with the invoice number."
+msgstr "Если для заказа установить статус ”Отправлено”, то пользователю автоматически отправят-лист с номер накладной."
+
+msgid "Creating a pickup"
+msgstr "Создание вызова курьера"
+
+msgid "Go to the page <a href=\"admin.php?page=meest_parcel\">“Parcels”</a> and click the button “Create pickup for parcels”</a>."
+msgstr "Перейдите на страницу <a href=\"admin.php?page=meest_parcel\">\"Поселок\"</a> и нажмите на кнопку ”Создать вызов курьера для посылок”</a>."
+
+msgid "You can also create a pickup on the page <a href=\"admin.php?page=meest_pickup&action=create\">Pickups</a>."
+msgstr "Также ”Вызов курьера” можно создать на странице <a href=\"admin.php?page=meest_pickup&action=create\">\"Вызовы курьера\"</a>."
+
+msgid "Filling in the address is the same as for the parcel, specify the desired time of arrival of the courier."
+msgstr "Заполнение адреса производится так же как для посылки, укажите желаемое время прибытия курьера."
+
+msgid "On the right is a list of parcels that will be included in the call."
+msgstr "Справа есть список посылок, которые будут включены в вызова."
+
+msgid "After creating the ”Pickup”, it can be edited and deleted."
+msgstr "После создания ”Вызов курьера”, его можно редактировать и удалять."

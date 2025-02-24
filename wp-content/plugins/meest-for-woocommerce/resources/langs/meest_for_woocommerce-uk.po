@@ -1,0 +1,474 @@
+# Translation of Meest for WooCommerce in Ukrainian
+# This file is distributed under the same license as the Meest for WooCommerce package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-04-28 14:29+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 2.4.2\n"
+"Language: uk_UA\n"
+"Project-Id-Version: Meest for WooCommerce\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+msgid "About"
+msgstr "Про плагін"
+
+msgid "Address"
+msgstr "Адреса"
+
+msgid "Address delivery"
+msgstr "Доставка за адресою"
+
+msgid "Address details"
+msgstr "Деталі адреси"
+
+msgid "Agent"
+msgstr "Агент"
+
+msgid "ATM"
+msgstr "Поштомат"
+
+msgid "Barcode"
+msgstr "Штрих-код"
+
+msgid "Building"
+msgstr "Будівля"
+
+msgid "Branch"
+msgstr "Відділення"
+
+msgid "Branch delivery"
+msgstr "Доставка у відділення"
+
+msgid "Calculate shipping cost"
+msgstr "Розрахувати вартість доставки"
+
+msgid "Code"
+msgstr "Код"
+
+msgid "Country"
+msgstr "Країна"
+
+msgid "СOD"
+msgstr "Накладений платіж"
+
+msgid "Created at"
+msgstr "Дата створення"
+
+msgid "Create pickup"
+msgstr "Створити виклик кур`єра"
+
+msgid "Create parcel"
+msgstr "Створити посилку"
+
+msgid "Create parcel for order #"
+msgstr "Створити посилку для замовлення №"
+
+msgid "City"
+msgstr "Місто"
+
+msgid "Cash"
+msgstr "Готівкою"
+
+msgid "Cost services"
+msgstr "Вартість послуг"
+
+msgid "Custom"
+msgstr "Спеціальне"
+
+msgid "Create pickup for %s parcels"
+msgstr "Створити виклик кур'єра для %s посилок"
+
+msgid "cm"
+msgstr "см"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Delivery type"
+msgstr "Тип доставки"
+
+msgid "Delivery date"
+msgstr "Дата доставки"
+
+msgid "Declaration"
+msgstr "Декларація"
+
+msgid "Delete"
+msgstr "Видалити"
+
+msgid "Event"
+msgstr "Подія"
+
+msgid "Edit parcel #%s"
+msgstr "Редагувати посилку №%s"
+
+msgid "Edit parcel #%s for order #%s"
+msgstr "Редагувати посилку №%s для замовлення №%s"
+
+msgid "Enter delivery address"
+msgstr "Введіть адресу доставки"
+
+msgid "Edit pickup #%s"
+msgstr "Редагувати виклик кур`єра №%s"
+
+msgid "Edit"
+msgstr "Редагувати"
+
+msgid "Email"
+msgstr "Е-пошта"
+
+msgid "Email was sent."
+msgstr "Електронний лист надіслано."
+
+msgid "First name"
+msgstr "Ім'я"
+
+msgid "Flat"
+msgstr "Квартира"
+
+msgid "Fixed shipping cost"
+msgstr "Фіксована вартість доставки"
+
+msgid "Filter branches"
+msgstr "Фільтрувати відділення"
+
+msgid "Group items in one package"
+msgstr "Об’єдната товари в один пакет"
+
+msgid "Hello %s."
+msgstr "Привіт %s."
+
+msgid "Just to let you know - we`ve shipped your order #%s by Meest."
+msgstr "Просто повідомити - ми відправили ваше замовлення #%s компанією Meest."
+
+msgid "In detail"
+msgstr "Детально"
+
+msgid "Insurance"
+msgstr "Страхування"
+
+msgid "insurance - %s"
+msgstr "страхування - %s"
+
+msgid "Invoice"
+msgstr "Накладна"
+
+msgid "Invoice number"
+msgstr "Номер накладної"
+
+msgid "If you do not have an API key, you can get it by following the link"
+msgstr "Якщо у вас немає ключа API, ви можете отримати його, перейшовши за посиланням"
+
+msgid "If the value is empty, the cost is calculated automatically"
+msgstr "Якщо значення порожнє, вартість обчислюється автоматично"
+
+msgid "If checked, СOD will be set by price of items"
+msgstr "Якщо встановити цей прапорець, накладений платіж визначатиметься за ціною товарів"
+
+msgid "If checked, all items will be group in one package"
+msgstr "Якщо встановити цей прапорець, усі товари будуть об’єднані в один пакет"
+
+msgid "If checked, the delivery cost will be displayed"
+msgstr "Якщо позначено, вартість доставки відображатиметься"
+
+msgid "If you have questions about having problems creating parcels, please contact our support"
+msgstr "Якщо у Вас є питання чи виникли проблеми із створенням посилок, то звертайтесь до нашої підтримки"
+
+msgid "kg"
+msgstr "кг"
+
+msgid "Last name"
+msgstr "Прізвище"
+
+msgid "Last updated at"
+msgstr "Останнє оновлення"
+
+msgid "Length x Width x Height"
+msgstr "Довжина х Ширина х Висота"
+
+msgid "Limits"
+msgstr "Обмеження"
+
+msgid "Middle name"
+msgstr "По батькові"
+
+msgid "Mobile phone"
+msgstr "Мобільний телефон"
+
+msgid "Notation"
+msgstr "Опис"
+
+msgid "Number"
+msgstr "Номер"
+
+msgid "Non cash"
+msgstr "Безготівково"
+
+msgid "Order"
+msgstr "Замовлення"
+
+msgid "Order ID"
+msgstr "ІД замовлення"
+
+msgid "Order #%s was shipped!"
+msgstr "Замовлення №%s відправлено!"
+
+msgid "Pay type"
+msgstr "Тип оплати"
+
+msgid "Pack types"
+msgstr "Типи упаковки"
+
+msgid "Payer"
+msgstr "Платник"
+
+msgid "Parcel"
+msgstr "Посилка"
+
+msgid "Parcels"
+msgstr "Посилки"
+
+msgid "Parcel size"
+msgstr "Розмір посилки"
+
+msgid "Parcel number: <strong>%s</strong>."
+msgstr "Номер посилки: <strong>%s</strong>."
+
+msgid "Pickup"
+msgstr "Виклик кур`єра"
+
+msgid "Pickups"
+msgstr "Виклики кур`єра"
+
+msgid "Pickup information"
+msgstr "Інформація про виклик кур`єра"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Parcel options"
+msgstr "Параметри посилки"
+
+msgid "Parcel was created."
+msgstr "Посилку створено."
+
+msgid "Parcel was updated."
+msgstr "Посилку оновлено."
+
+msgid "Parcel was deleted."
+msgstr "Посилку видалено."
+
+msgid "Parcel was pickuped."
+msgstr "Посилку додано до виклику кур`єра."
+
+msgid "Parcel was unpickuped."
+msgstr "Посилку видалено з виклику кур`єра."
+
+msgid "Pickup was created."
+msgstr "Виклики кур`єра створено."
+
+msgid "Pickup was updated."
+msgstr "Виклики кур`єра оновлено."
+
+msgid "Pickup was deleted."
+msgstr "Виклики кур`єра видалено."
+
+msgid "Invoice #%s by Meest"
+msgstr "Накладна №%s від Meest"
+
+msgid "Receiver"
+msgstr "Одержувач"
+
+msgid "Sender"
+msgstr "Відправник"
+
+msgid "Search"
+msgstr "Пошук"
+
+msgid "Tracking number, phone, sender or receiver name"
+msgstr "Номер відстеження, телефон, ім’я відправника або одержувача"
+
+msgid "Send email after change order status ”Shipped”"
+msgstr "Надіслати е-лист після зміни статусу замовлення ”Відправлено”"
+
+msgid "Shipping"
+msgstr "Доставка"
+
+msgid "Shipped"
+msgstr "Відправлено"
+
+msgid "Street"
+msgstr "Вулиця"
+
+msgid "Show limits for branches"
+msgstr "Показати обмеження для відділень"
+
+msgid "Select from the list"
+msgstr "Виберіть зі списку"
+
+msgid "Select a country"
+msgstr "Виберіть країну"
+
+msgid "Select a city"
+msgstr "Виберіть місто"
+
+msgid "Select a street"
+msgstr "Виберіть вулицю"
+
+msgid "Select a branch"
+msgstr "Виберіть відділення"
+
+msgid "Settings"
+msgstr "Налаштування"
+
+msgid "Setting saved!"
+msgstr "Налаштування збережено!"
+
+msgid "Sent email about parcel tracking"
+msgstr "Надіслано е-лист про відстеження посилки"
+
+msgid "Support"
+msgstr "Підтримка"
+
+msgid "Sticker"
+msgstr "Наклейка"
+
+msgid "size(lwh) - %sx%sx%s cm"
+msgstr "розміри(дшв) - %sx%sx%s см"
+
+msgid "Region"
+msgstr "Регіон"
+
+msgid "required"
+msgstr "обов'язкове"
+
+msgid "Unpickup"
+msgstr "Скасувати виклик"
+
+msgid "Tracking"
+msgstr "Відстежити"
+
+msgid "Tracking number"
+msgstr "Номер відстеження"
+
+msgid "Track parcel #"
+msgstr "Відстеження посилки №"
+
+msgid "Tracking information is missing"
+msgstr "Інформація про відстеження відсутня"
+
+msgid "Username"
+msgstr "Ім'я користувача"
+
+msgid "Updated at"
+msgstr "Дата оновлення"
+
+msgid "You can tracking your order at: <a href=\"%s\">%s</a>."
+msgstr "Ви можете відстежити своє замовлення за адресою: <a href=\"%s\">%s</a>."
+
+msgid "Weight"
+msgstr "Вага"
+
+msgid "weight - %s kg"
+msgstr "вага - %s кг"
+
+msgid "Write to us"
+msgstr "Написати нам"
+
+msgid "Meest - International Postal and Logistics Group, for detailed information - visit our website <a href=\"https://meest.com\">https://meest.com</a>."
+msgstr "Meest - Міжнародна поштово-логістична група, для детальної інформації - завітайте на наш сайт <a href=\"https://meest.com\">https://meest.com</a>."
+
+msgid "The “Meest for WooCommerce” plugin connects delivery from Meest to your online store, allows you to create invoices, courier calls and manage them."
+msgstr "Плагін ”Meest for WooCommerce” підключає до Вашого інтернет-магазину доставку від Міст, дозволяє створювати накладні, виклики кур`єрів та управляти ними."
+
+msgid "Go to the <a href=\"admin.php?page=meest_setting\">”Settings page”</a>."
+msgstr "Перейдіть на сторінку <a href=\"admin.php?page=meest_setting\">”Налаштування”</a>."
+
+msgid "Enter the data to connect to the API and save the settings."
+msgstr "Введіть дані для підключення API та збережіть налаштування."
+
+msgid "If the settings are saved successfully, fill in other data."
+msgstr "Якщо налаштування успішно збережені, то заповнюйте інші дані."
+
+msgid "Fill in the data about the Agent, phone in accordance with the international format."
+msgstr "Заповніть дані про Агента, телефон відповідно до міжнародного формату."
+
+msgid "Fill in the data on the address of the parcel collection."
+msgstr "Заповніть дані про адресу забору посилок."
+
+msgid "For Ukraine - available types of delivery: address and branch. City and street or branch - selected from the list."
+msgstr "Для України - доступні типи доставки: адреса та відділення. Місто та вулиця або відділення - вибираються із списку."
+
+msgid "For other countries, only address delivery is available. Region, city, street - entered manually."
+msgstr "Для інших країн доступна лише адресна доставка. Регіон, місто, вулиця - вводяться вручну."
+
+msgid "Creating an empty parcel"
+msgstr "Створення порожньої посилки"
+
+msgid "Go to the page <a href=\"admin.php?page=meest_parcel\">“Parcels”</a> and click the button “Create”."
+msgstr "Перейдіть на сторінку <a href=\"admin.php?page=meest_parcel\">”Посилки”</a> та натисніть кнопку ”Створити”."
+
+msgid "To quickly create a parcel - select “Parcel“ from the top menu “Add“."
+msgstr "Для швидкого створення посилки - виберіть з верхнього меню ”Додати” пункт ”Посилка”."
+
+msgid "Fill in the parcel parameters."
+msgstr "Заповніть параметри посилки."
+
+msgid "Types of packaging can be selected from the list or specify special sizes."
+msgstr "Типи упаковки можна вибрати із списку або вказати спеціальні розміри."
+
+msgid "Filling in the address for the sender and recipient is the same as for the page <a href=\"admin.php?page=meest_setting\">”Settings”</a>."
+msgstr "Заповнення адреси для відправника і одержувача проводиться так само як і для сторінки <a href=\"admin.php?page=meest_setting\">”Налаштування”</a>."
+
+msgid "After creating a parcel, you can edit, delete, track, add to the ”Pickups”, cancel the ”Pickup” and print the declaration and sticker."
+msgstr "Після створення посилки, її можна редагувати, видалити, відстежити, додати до ”Виклик кур`єра”, скасувати ”Виклик кур`єра” та роздрукувати деклацію і наклейку."
+
+msgid "Creating a parcel by the order"
+msgstr "Створення посилки через замовлення"
+
+msgid "Go to the page <a href=\"edit.php?post_type=shop_order\">“Order”</a>."
+msgstr "Перейдіть на сторінку <a href=\"edit.php?post_type=shop_order\">”Замовлення”</a>."
+
+msgid "For orders for which “Bridge” delivery is selected, the “Create parcel” button is displayed."
+msgstr "Для замовлень, для яких обрано доставку ”Міст” відображається кнопка ”Створити посилку”."
+
+msgid "Click the button ”Create Parcel” or open the order and click on the button ”Create Parcel” in the right pane."
+msgstr "Натисніть кнопку ”Створити посилку” або відкрийте замовлення та натисніть на кнопку ”Створити посилку” у правій панелі."
+
+msgid "Data is filled in automatically."
+msgstr "Заповнення даних проводиться автоматично."
+
+msgid "You can change or add information about the parcel, sender and recipient."
+msgstr "Можна змінювати чи доповнювати дані про посилку, відправника та одержувача."
+
+msgid "After creating the parcel, the invoice number will be displayed in the orders or when you open the order, you can edit the parcel, track and print the declaration and the sticker."
+msgstr "Після створення посилки, у замовленнях буде відображатися номер накладної або відкритті замовлення можна буде редагувати посилку, відстежити та роздрукувати деклацію і наклейку."
+
+msgid "If you set the status to ”Shipped” for the order, the user will be automatically sent a letter with the invoice number."
+msgstr "Якщо для замовлення встановити статус “Відправлено”, то користувачу автоматично буде надіслано е-лист з номер накладної."
+
+msgid "Creating a pickup"
+msgstr "Створення виклику кур`єра"
+
+msgid "Go to the page <a href=\"admin.php?page=meest_parcel\">“Parcels”</a> and click the button “Create pickup for parcels”</a>."
+msgstr "Перейдіть на сторінку <a href=\"admin.php?page=meest_parcel\">”Посилки”</a> та натисніть на кнопку ”Створити виклик кур`єра для посилок”</a>."
+
+msgid "You can also create a pickup on the page <a href=\"admin.php?page=meest_pickup&action=create\">Pickups</a>."
+msgstr "Також ”Виклик кур`єра” можна створити на сторінці <a href=\"admin.php?page=meest_pickup&action=create\">”Виклики кур`єра”</a>."
+
+msgid "Filling in the address is the same as for the parcel, specify the desired time of arrival of the courier."
+msgstr "Заповнення адреси проводиться так само як для посилки, вкажіть бажаний час прибуття кур`єра."
+
+msgid "On the right is a list of parcels that will be included in the call."
+msgstr "Праворуч є список посилок, які будуть включені до виклику."
+
+msgid "After creating the ”Pickup”, it can be edited and deleted."
+msgstr "Після створення ”Виклик кур`єра”, його можна редагувати та видалити."

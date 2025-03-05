@@ -169,12 +169,12 @@ class Checkout
             ]);
 
             woocommerce_form_field("{$type}_postcode", [
-                'label' => __('Postcode', MEEST_PLUGIN_DOMAIN),
+                'label' => pll__('Postcode'),
                 'type' => 'text',
                 'id' => "{$type}_postcode",
                 'default' => $address['postcode'],
                 'required' => false,
-                'class' => ['form-row-last'],
+                'class' => ['form-row-wide'],
                 'input_class' => ['input-text'],
             ]);
 
@@ -214,6 +214,12 @@ class Checkout
         isset($fields[$type]["{$type}_address_1"]) && $fields[$type][$type.'_address_1']['required'] = false;
         isset($fields[$type]["{$type}_address_2"]) && $fields[$type][$type.'_address_2']['required'] = false;
         isset($fields[$type]["{$type}_postcode"]) && $fields[$type][$type.'_postcode']['required'] = false;
+        
+        /*unset($fields[$type]["{$type}_state"]);
+        unset($fields[$type]["{$type}_city"]);
+        unset($fields[$type]["{$type}_address_1"]);
+        unset($fields[$type]["{$type}_address_2"]);
+        unset($fields[$type]["{$type}_postcode"]);*/
     }
 
     public function checkoutProcess()
@@ -225,6 +231,35 @@ class Checkout
             $address = AddressCustomerResource::make($request->all(), $type);
 
             $this->customer->setMeta("{$type}_meest_address", $address);
+
+            if($address['country']['code'] === "UA") {
+                if($address['delivery_type'] === "branch") {
+                    $meest_fields = [
+                        'billing_city_id'    => pll__('City'),
+                        'billing_branch_id'  => pll__('Branch'),
+                    ];
+                } else {
+                    $meest_fields = [
+                        'billing_city_id'    => pll__('City'),
+                        'billing_street_id'  => pll__('Street'),
+                        'billing_building'   => pll__('Building'),
+                    ];
+                }
+            } else {
+                $meest_fields = [
+                    'billing_region_text'  => pll__('Region'),
+                    'billing_city_text'    => pll__('City'),
+                    'billing_street_text'  => pll__('Street'),
+                    'billing_building'     => pll__('Building'),
+                    'billing_postcode'     => pll__('Postcode'),
+                ];
+            }
+        
+            foreach ($meest_fields as $field_key => $label) {
+                if (empty($_POST[$field_key])) {
+                    wc_add_notice( sprintf( __( '%s is a required field.', 'woocommerce' ), $label ), 'error', array( 'id' => $field_key ) );
+                }
+            }
         }
     }
 

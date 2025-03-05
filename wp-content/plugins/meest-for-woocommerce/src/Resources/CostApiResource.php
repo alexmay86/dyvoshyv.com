@@ -9,14 +9,17 @@ class CostApiResource extends Resource
 
     public function toArray(): array
     {
+        $address = $this->getReceiverAddress(meest_sanitize_text_field($this->data));
+        $items = $this->getItems($this->data['items']);
+        $weight = 0;
+        foreach($items as $item) {
+            $weight += $item["weight"];
+        }
         return [
-            'sendingDate' => date('d.m.Y'),
-            'COD' => $this->options['shipping']['auto_cod'] == 1 && $this->data['payment_method'] === 'cod'
-                ? $this->data['totals']['total']
-                : null,
-            'sender' => $this->getSenderAddress($this->options['address']),
-            'receiver' => $this->getReceiverAddress(meest_sanitize_text_field($this->data)),
-            'placesItems' => $this->getItems($this->data['items']),
+            "ReceiverCountryID" => $address['countryId'],
+            "regionID" => $address['regionId'],
+            "ContractID" => $this->options['contract'] ? $this->options['contract'] : "5D6A2BA8-4086-11E3-9DF6-003048D2B473",
+            "weight" => $weight,
         ];
     }
 
@@ -79,6 +82,12 @@ class CostApiResource extends Resource
                 $arr['cityId'] = $data["{$type}_city_id"];
             } else {
                 $arr['regionDescr'] = $data["{$type}_region_text"];
+                $regiontext = $arr['regionDescr'];
+                $items = meest_init('Api')->searchRegion([
+                    'countryID' => $data["{$type}_country_id"],
+                    'regionDescr' => "%$regiontext%",
+                ]);
+                $arr['regionId'] = $items[0]['regionID'] ?? null;
                 $arr['cityDescr'] = $data["{$type}_city_text"];
             }
             $arr['building'] = $data["{$type}_building"];

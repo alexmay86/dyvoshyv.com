@@ -66,6 +66,10 @@ class SettingResource extends Resource
             $data['url'] = $this->data['url'];
         }
 
+        if ($this->data['contract'] !== $this->options['contract']) {
+            $data['contract'] = $this->data['contract'];
+        }
+
         return $data;
     }
 }

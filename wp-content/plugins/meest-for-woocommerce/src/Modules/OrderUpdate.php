@@ -20,7 +20,7 @@ class OrderUpdate
 
     public function init()
     {
-        add_action('woocommerce_checkout_update_order_meta', [$this, 'checkoutUpdateOrderMeta']);
+        add_action('woocommerce_checkout_update_order_meta', [$this, 'checkoutUpdateOrderMeta'], 15);
         if (version_compare( WC_VERSION, '4.3.0', '>=')) {
             add_action('woocommerce_checkout_order_created', [$this, 'checkoutOrderCreated']);
         }
@@ -82,9 +82,17 @@ class OrderUpdate
 
     private function updateOrderData($id, $address, $type)
     {
-        update_post_meta($id, "_{$type}_state", $address['state']);
-        update_post_meta($id, "_{$type}_city", $address['city']);
-        update_post_meta($id, "_{$type}_address_1", $address['address_1']);
+        $order = wc_get_order($id);
+        if($type === 'shipping') {
+            $order->set_shipping_state($address['state']);
+            $order->set_shipping_city($address['city']);
+            $order->set_shipping_address_1($address['address_1']);
+        } else {
+            $order->set_billing_state($address['state']);
+            $order->set_billing_city($address['city']);
+            $order->set_billing_address_1($address['address_1']);
+        }
+        $order->save();
     }
 
     public function thankyou($orderId)

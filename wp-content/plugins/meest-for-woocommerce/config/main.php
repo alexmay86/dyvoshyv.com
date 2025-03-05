@@ -91,6 +91,7 @@ return [
         'auth_refresh' => '/refreshToken',
 
         'country_search' => '/countrySearch',
+        'region_search' => '/regionSearch',
         'city_search' => '/citySearch',
         'street_search' => '/addressSearch',
 
@@ -112,7 +113,7 @@ return [
         'print_sticker100' => '/print/sticker100/{printValue}',
 
         'tracking' => '/tracking/{trackNumber}',
-        'calculate' => '/calculate',
+        'calculate' => '/priceIntercourier_standardIOSS',//'/calculate',
     ],
     'dictionary' => [
         'is_db' => false,

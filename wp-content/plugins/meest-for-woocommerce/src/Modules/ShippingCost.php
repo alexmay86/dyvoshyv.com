@@ -26,6 +26,11 @@ class ShippingCost
         }
 
         parse_str($_POST['post_data'], $post);
+        if ($_GET['wc-ajax'] === 'update_order_review') {
+            parse_str(sanitize_text_field($_POST['post_data']), $post);
+        } elseif ($_GET['wc-ajax'] === 'checkout') {
+            $post = $_POST;
+        }
 
         if (CostApiResource::check($post)) {
             $cart = WC()->cart;
@@ -33,9 +38,14 @@ class ShippingCost
             $post['totals'] = $cart->get_totals();
             $costApiData = CostApiResource::make($post);
 
+            //file_put_contents('file.txt', 'Meest Cost Api Data: ' . "\n" . json_encode($costApiData) . "\n", FILE_APPEND);
             $response = meest_init('Api')->calculate($costApiData);
+            //file_put_contents('file.txt', 'Meest Cost Api Response: ' . "\n" . json_encode($response) . "\n", FILE_APPEND);
+
+            $shipping_price = $response['ParcelCostUAH'];
+            if($shipping_price && function_exists('wmc_get_price')) $shipping_price = wmc_get_price( $shipping_price );
         }
 
-        return (float) ($response['costServices'] ?? $this->cost);
+        return (float) ($shipping_price ?? $this->cost);
     }
 }

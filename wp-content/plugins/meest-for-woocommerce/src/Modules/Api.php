@@ -48,6 +48,13 @@ class Api implements Module
         ]);
     }
 
+    public function searchRegion($data = [])
+    {
+        return $this->request('POST', 'region_search', [
+            'filters' => $data
+        ]);
+    }
+
     public function searchCity($data = [])
     {
         return $this->request('POST', 'city_search', [

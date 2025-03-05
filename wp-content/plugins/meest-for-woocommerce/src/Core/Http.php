@@ -19,9 +19,10 @@ class Http
 
     public function makeUri($urn, $query = [], $params = []): string
     {
+        $url = $urn === 'calculate' ? 'https://api.meest.com/v3.0/internationalCourier' : $this->options['url'];
         $urn = $this->options['urns'][$urn];
 
-        return $this->options['url']
+        return $url
             .(!empty($query) ? strtr($urn, $query) : $urn)
             .(!empty($params) ? '?'.http_build_query($params) : null);
     }

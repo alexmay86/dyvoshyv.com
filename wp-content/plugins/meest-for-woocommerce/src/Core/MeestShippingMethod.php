@@ -1,6 +1,7 @@
 <?php
 
 namespace MeestShipping\Core;
+use MeestShipping\Modules\ShippingCost;
 
 class MeestShippingMethod extends \WC_Shipping_Method
 {
@@ -33,7 +34,7 @@ class MeestShippingMethod extends \WC_Shipping_Method
     /**
      * Init your settings
      *
-     * @access publicv
+     * @access public
      * @return void
      */
     private function init()
@@ -81,9 +82,21 @@ class MeestShippingMethod extends \WC_Shipping_Method
      */
     public function calculate_shipping($package = [])
     {
+        // Ensure the ShippingCost class is available
+        if (!class_exists('MeestShipping\Modules\ShippingCost')) {
+            return;
+        }
+
+        // Create an instance of ShippingCost with default cost 0
+        $shippingCost = new ShippingCost(0);
+
+        // Calculate the cost using the ShippingCost class
+        $calculated_cost = $shippingCost->calc();
+
+        // Add the calculated shipping rate
         $this->add_rate([
             'label' => $this->title,
-            'cost' => 0,
+            'cost' => $calculated_cost,
             'package' => $package,
         ]);
     }

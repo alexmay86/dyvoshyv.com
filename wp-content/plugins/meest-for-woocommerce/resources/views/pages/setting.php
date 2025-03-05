@@ -32,6 +32,18 @@ use MeestShipping\Core\Error;
                                             >
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label><?php _e('Contract ID', MEEST_PLUGIN_DOMAIN) ?> <abbr class="required" title="required">*</abbr></label>
+                                        </th>
+                                        <td colspan="3">
+                                            <input
+                                                    type="text"
+                                                    name="option[contract]"
+                                                    value="<?php echo esc_attr($options['contract']) ?>"
+                                            >
+                                        </td>
+                                    </tr>
                                     <tr id="meest_access_token" <?= empty($options['credential']['username']) ? '' : 'hidden' ?>>
                                         <th scope="row">
                                             <label>

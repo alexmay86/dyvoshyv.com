@@ -73,7 +73,7 @@ class Asset
                 'js' => [
                     'src' => MEEST_PLUGIN_URL.'public/js/checkout.min.js',
                     'deps' => ['meest-address'],
-                    'ver' => MEEST_PLUGIN_VERSION
+                    'ver' => filemtime(MEEST_PLUGIN_PATH.'public/js/checkout.min.js')
                 ],
             ],
         ];

@@ -73,7 +73,3 @@
     bottom: 20px;
     z-index: 9;
 }
-
-table.wmc-currency-options .ui-sortable .wmc-currency-data.ui-sortable-handle {
-    cursor: move;
-}

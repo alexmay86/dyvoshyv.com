@@ -955,6 +955,7 @@ if ( ! class_exists( 'VillaTheme_Require_Environment' ) ) {
 						$active_plugins[$info[0]] = $v;
 					}
 				}
+				$plugins_dir = WP_PLUGIN_DIR;
 				foreach ( $args['require_plugins'] as $plugin ) {
 					if (!is_array($plugin) || empty($plugin)){
 						continue;
@@ -969,7 +970,7 @@ if ( ! class_exists( 'VillaTheme_Require_Environment' ) ) {
 					$plugin['version'] = $plugin_version;
 					$is_installed = true;
 					if (empty($active_plugins[$plugin_slug])){
-						if (!is_dir(ABSPATH.'wp-content/plugins/'.$plugin_file)) {
+						if (!is_dir($plugins_dir. DIRECTORY_SEPARATOR . $plugin_slug )) {
 							$is_installed = false;
 							$this->notices[] = sprintf( "%s to be installed. <br><a href='%s' target='_blank' class='button button-primary' style='vertical-align: middle; margin-top: 5px;'>Install %s</a>",
 								esc_html( $plugin_name ),
@@ -997,7 +998,7 @@ if ( ! class_exists( 'VillaTheme_Require_Environment' ) ) {
 						$plugin_file = $active_plugins[$plugin_slug];
 					}
 					if ($plugin_version && $is_installed && $plugin_file){
-						$plugin_file = ABSPATH.'wp-content/plugins/'.$plugin_file;
+						$plugin_file = $plugins_dir.DIRECTORY_SEPARATOR.$plugin_file;
 						$plugin_info = get_file_data($plugin_file, $default_headers, 'plugin' );
 						if ( !empty( $plugin_info['Version'] ) && ! version_compare( $plugin_info['Version'], $plugin_version, '>=' )) {
 							$this->notices[] = sprintf( "%s version at least %s.", esc_html( $plugin_name ) ,esc_html( $plugin_version ) );

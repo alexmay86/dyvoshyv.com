@@ -426,3 +426,51 @@ add_filter('woocommerce_shipping_rate_label', function ($label, $rate) {
     }
     return $label;
 }, 10, 2);
+
+/* MEEST SHIPPING COST LABEL */
+add_filter('woocommerce_cart_shipping_method_full_label', function ($label, $method) {
+    if (function_exists('pll__')) {
+        // Custom text to be added
+        $custom_text = pll__('Вартість доставки в ваш регіон');
+        // Get the shipping cost for the selected method
+        $shipping_cost = $method->get_cost();
+        
+        if (!empty($shipping_cost)) {
+            // Split the label into two parts: the method name and the price
+            $parts = explode($method->get_label(), $label);
+            
+            // Reassemble the label with custom text between the method name and the price
+            $label = $parts[0] . $method->get_label() . ' ' . '<br><span class="shipping-cost-text">' . $custom_text . '</span> ' . wc_price($shipping_cost);
+        }
+    }
+    return $label;
+}, 10, 2);
+
+/* DISABLE MEEST UPDATE */
+add_filter('site_transient_update_plugins', 'remove_update_notification');
+function remove_update_notification($value) {
+    unset($value->response[ "meest-for-woocommerce/meest_shipping.php" ]);
+    unset($value->response[ "wc-ukr-shipping/wc-ukr-shipping.php" ]);
+    return $value;
+}
+
+/* COUNTRIES FIELD SYNCHRONIZATION */
+function synchronize_country() {
+    if(is_checkout()) { ?>
+        <script>
+        jQuery(document).ready(function($) {
+            $('#billing_meest_country_id').on('change', function() {
+                const country = $(this).find('option:selected').text();
+                if($('#billing_country').length) {
+                    var shipping_country = $('#billing_country').find('option').filter(function() {
+                        return $(this).text() === country
+                    }).val();
+                    console.log(shipping_country);
+                    $('#billing_country').val(shipping_country).change();
+                }
+            });
+        });
+        </script>
+    <?php }
+}
+add_action('wp_footer', 'synchronize_country');

@@ -26,7 +26,9 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 .visually-hidden:not(:focus):not(:active), .form-allowed-tags:not(:focus):not(:active){position:absolute !important;height:1px;width:1px;overflow:hidden;clip:rect(1px 1px 1px 1px);clip:rect(1px, 1px, 1px, 1px);white-space:nowrap}
 #to_top_scrollup{padding:0;overflow:hidden}
 #to_top_scrollup img{vertical-align:top}
-.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper span.wmc-current-currency{
+
+.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper span.wmc-current-currency,
+.woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper span.wmc-current-currency{
     font-size: 16px;
     font-weight: 500;
     text-transform: uppercase;
@@ -36,7 +38,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     -webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;
     padding: 6px 0
 }
-.woo-multi-currency.wmc-shortcode .wmc-currency-wrapper .wmc-current-currency-arrow {
+.woo-multi-currency.wmc-shortcode .wmc-currency-wrapper .wmc-current-currency-arrow,
+.woocommerce-multi-currency.wmc-shortcode .wmc-currency-wrapper .wmc-open-dropdown-currencies {
     margin-left: 5px;
     width: 10px;
     height: 5px;
@@ -52,44 +55,53 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
     position: static;
     transform: none
 }
-.woo-multi-currency.wmc-shortcode .wmc-currency-wrapper .wmc-current-currency-arrow::after {
+.woo-multi-currency.wmc-shortcode .wmc-currency-wrapper .wmc-current-currency-arrow::after,
+.woocommerce-multi-currency.wmc-shortcode .wmc-currency-wrapper .wmc-open-dropdown-currencies::after {
     content: none
 }
-.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency {
+.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency,
+.woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency {
     max-height: 0;
     transition: max-height .3s ease-out;
     display: block;
     overflow: hidden;
     border: none
 }
-.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper:hover .wmc-sub-currency {
-    max-height: 100%;
+.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper:hover .wmc-sub-currency,
+.woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper:hover .wmc-sub-currency {
+    max-height: 200%;
     transition: max-height .4s ease-in;
 }
 @media (pointer: fine) {
-    .woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper:hover .wmc-current-currency-arrow {
+    .woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper:hover .wmc-current-currency-arrow,
+    .woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper:hover .wmc-open-dropdown-currencies {
       transform: rotateX(180deg);
       transition-delay: 0s;
     }
 }
-.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency {
+.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency,
+.woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency {
     padding: 6px 0
 }
-.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a {
+.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a,
+.woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a {
     font-size: 16px;
     font-weight: 500;
     text-transform: uppercase;
     color: #181818;
     font-family: montserrat;
 }
-.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a:hover {
+.woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a:hover,
+.woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a:hover {
     color: #8E989D;
     font-weight: 500;
 }
 
 @media (max-width: 767px) {
     .woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper span.wmc-current-currency,
-    .woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a {
+    .woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper span.wmc-current-currency,
+    .woo-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a,
+    .woocommerce-multi-currency.wmc-shortcode.plain-vertical .wmc-currency-wrapper .wmc-sub-currency .wmc-currency a {
         font-size: 14px;
     }
 }

@@ -1,0 +1,26 @@
+.wmc-shortcode-price-collate {
+
+  &.wmc-collate-archive-page {
+    display: flex;
+    justify-content: center;
+  }
+
+  .wmc-currency-collate-wrapper {
+
+    &.wmc-collate-layout-inline {
+      display: flex;
+    }
+
+    .wmc-collate-item-wrap {
+
+    }
+
+    .wmc-collate-currency-separate-symbol {
+      padding: 0 5px;
+    }
+  }
+
+  .wmc-hidden {
+    display: none;
+  }
+}

@@ -376,7 +376,7 @@ add_filter('woocommerce_available_payment_gateways', function ($available_gatewa
     $current_currency = get_woocommerce_currency();
 
     // Define the currency in which LiqPay should be hidden
-    if ($current_currency === 'EUR' && isset($available_gateways['liqpay-webplus'])) {
+    if (in_array($current_currency, ['EUR', 'USD']) && isset($available_gateways['liqpay-webplus'])) {
         unset($available_gateways['liqpay-webplus']);
     }
 

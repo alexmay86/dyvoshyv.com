@@ -398,3 +398,31 @@ function custom_woocommerce_payment_gateway_icons($icon, $gateway_id) {
 
     return $icon;
 }
+
+/* SHIPPING METHODS STRINGS TRANSLATION */
+add_filter('wcus_checkout_i18n', function ($i18n, $lang) {
+    // Пример текстов для русской версии
+    $i18n = [
+        'shipping_method_name' => pll__('Нова Пошта по Україні'),
+        'fields_title' => pll__('Вкажіть адресу доставки'),
+        'shipping_type_warehouse' => pll__('На відділення (або в Поштомат)'),
+        'shipping_type_doors' => pll__('На адресу'),
+        'ui' => [
+            'city_placeholder' => pll__('Оберіть місто'),
+            'warehouse_placeholder' => pll__('Оберіть відділення'),
+            'custom_address_placeholder' => pll__('Введіть адресу'),
+            'text_search' => pll__('Введіть значення для пошуку'),
+            'text_loading' => pll__('Завантаження...'),
+            'text_more' => pll__('Завантажити ще'),
+            'text_not_found' => pll__('Нічого не знайдено')
+        ]
+    ];
+
+    return $i18n;
+}, 10, 2);
+add_filter('woocommerce_shipping_rate_label', function ($label, $rate) {
+    if (function_exists('pll__') && strpos($rate->get_method_id(), 'meest') !== false) {
+        return pll__('Meest Міжнародна доставка'); // Replace with translatable name
+    }
+    return $label;
+}, 10, 2);

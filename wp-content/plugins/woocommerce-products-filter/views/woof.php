@@ -37,7 +37,7 @@ if (!function_exists('woof_show_btn')) {
             if ($is_searh_active OR woof()->is_isset_in_request_data('min_price') OR ( class_exists("WOOF_EXT_TURBO_MODE") AND isset(woof()->settings["woof_turbo_mode"]["enable"]) AND woof()->settings["woof_turbo_mode"]["enable"] )):
                 global $woof_link;
                 $woof_reset_btn_txt = get_option('woof_reset_btn_txt', '');
-                if (empty($woof_reset_btn_txt) OR woof()->show_notes) {
+                if (empty($woof_reset_btn_txt)) {
                     $woof_reset_btn_txt = esc_html__('Reset', 'woocommerce-products-filter');
                 }
                 $woof_reset_btn_txt = WOOF_HELPER::wpml_translate(null, $woof_reset_btn_txt);
@@ -46,7 +46,7 @@ if (!function_exists('woof_show_btn')) {
                 <?php endif; ?><?php endif; ?><?php if (!$autosubmit OR $ajax_redraw): ?>
                 <?php
                 $woof_filter_btn_txt = get_option('woof_filter_btn_txt', '');
-                if (empty($woof_filter_btn_txt) OR woof()->show_notes) {
+                if (empty($woof_filter_btn_txt)) {
                     $woof_filter_btn_txt = esc_html__('Filter', 'woocommerce-products-filter');
                 }
 

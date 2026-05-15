@@ -563,25 +563,25 @@ var woof_sort_order = [];
 
         //***
         //to avoid logic errors with the count options
-        $('#woof_hide_dynamic_empty_pos').change(function () {
+        /*$('#woof_hide_dynamic_empty_pos').change(function () {
             if (parseInt($(this).val()) === 1) {
                 $('#woof_show_count').val(1);
                 $('#woof_show_count_dynamic').val(1);
             }
-        });
+        });*/
 
         $('#woof_show_count_dynamic').change(function () {
             if (parseInt($(this).val()) === 1) {
                 $('#woof_show_count').val(1);
-            } else {
+            } /*else {
                 $('#woof_hide_dynamic_empty_pos').val(0);
-            }
+            }*/
         });
 
         $('#woof_show_count').change(function () {
             if ($(this).val() == 0) {
                 $('#woof_show_count_dynamic').val(0);
-                $('#woof_hide_dynamic_empty_pos').val(0);
+                //$('#woof_hide_dynamic_empty_pos').val(0);
             }
         });
 
@@ -713,7 +713,7 @@ jQuery(document).ready(function () {
     if (woof_ext_custom) {
         //woof_init_ext_uploader(woof_abspath, woof_ext_path, woof_ext_url);
     }
-    if (woof_show_notes) {
+    /*if (woof_show_notes) {
         jQuery(function () {
             //for premium only
             jQuery('#woof_filter_btn_txt').prop('disabled', true);
@@ -732,7 +732,7 @@ jQuery(document).ready(function () {
             jQuery('#hide_terms_count_txt').prop('disabled', true);
             jQuery('#hide_terms_count_txt').parents('.woof-control-section').addClass('woof_premium_only');
         });
-    }
+    }*/
 });
 
 

@@ -49,7 +49,16 @@ if ( true === wc_get_loop_product_visibility( $product->get_id() ) || $product->
                     $product_details_html = '';
 
 			        if ($settings['eael_show_post_terms'] === 'yes') {
-				        $product_details_html .= Helper::get_product_categories_list($settings['eael_post_terms']);
+				        //$product_details_html .= Helper::get_product_categories_list($settings['eael_post_terms']);
+                        $cats = get_the_terms($product->get_id(), 'product_cat');
+                        if($cats) {
+                            $product_details_html .= '<ul class="eael-product-cats">';
+                            foreach($cats as $cat) {
+                                $collection = get_field('collection_page', $cat);
+                                $product_details_html .= '<li><a href="' . ($collection ? get_the_permalink($collection) : get_term_link($cat->term_id)) . '" rel="tag">' . ($collection ? get_the_title($collection) : $cat->name) . '</a></li>';
+                            }
+                            $product_details_html .= '</ul>';
+                        }
 			        }
 
 			        if ( $settings['eael_product_slider_show_title'] ) {

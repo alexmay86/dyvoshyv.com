@@ -730,7 +730,7 @@ class PolylangLanguageSwitcher extends Widget_Base {
 
 		// Max number of items in language dropdown
 		if ( 'dropdown' === $settings['layout'] ) {
-			$this->add_render_attribute( '_wrapper', 'style', '--langs:' . ( count( $languages ) - 1 ) );
+			$this->add_render_attribute( '_wrapper', 'style', '--langs:' . ( count( $languages ) ) );
 		}
 
 		if ( ! empty( $languages ) ) {
@@ -812,7 +812,7 @@ class PolylangLanguageSwitcher extends Widget_Base {
 				$lang_code = array_key_exists( $lang_curr, $lang_links ) ? $lang_curr : current( array_keys( $lang_links ) );
 				$lang_link = $lang_links[ $lang_code ];
 
-				unset( $lang_links[ $lang_code ] );
+				//unset( $lang_links[ $lang_code ] );
 
 				if ( ! empty( $settings['dropdown_icon']['value'] ) && count( $lang_links ) ) {
 					$lang_link = str_replace( '</a>', '<i ' . $this->get_render_attribute_string( 'icon' ) . '></i></a>', $lang_link );

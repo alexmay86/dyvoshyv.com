@@ -3241,19 +3241,37 @@ if ( ! function_exists( 'woo_feed_category_mapping' ) ) {
 }
 
 // Category mapping.
+if ( ! function_exists( 'woo_feed_get_category_mapping_taxonomy' ) ) {
+	/**
+	 * Get taxonomy used for CTX Feed category mapping.
+	 *
+	 * @return string
+	 */
+	function woo_feed_get_category_mapping_taxonomy() {
+		$taxonomy = apply_filters( 'woo_feed_category_mapping_taxonomy', 'product_cat' );
+
+		if ( ! is_string( $taxonomy ) || '' === $taxonomy || ! taxonomy_exists( $taxonomy ) ) {
+			return 'product_cat';
+		}
+
+		return $taxonomy;
+	}
+}
+
 if ( ! function_exists( 'woo_feed_render_categories' ) ) {
 	/**
-	 * Get Product Categories
+	 * Render category mapping rows.
 	 *
-	 * @param int $parent Parent ID.
-	 * @param string $par separator.
-	 * @param string $value mapped values.
+	 * @param int    $parent Parent term ID.
+	 * @param string $par    Parent path.
+	 * @param string $value  Saved mapping values.
 	 *
 	 * @return void
 	 */
 	function woo_feed_render_categories( $parent = 0, $par = '', $value = '' ) {
+		$taxonomy     = woo_feed_get_category_mapping_taxonomy();
 		$categoryArgs = array(
-			'taxonomy'     => 'product_cat',
+			'taxonomy'     => $taxonomy,
 			'parent'       => $parent,
 			'orderby'      => 'term_group',
 			'show_count'   => 1,
@@ -3320,16 +3338,16 @@ if ( ! function_exists( 'woo_feed_render_categories' ) ) {
 						</span>
 					</td>
 					<?php
-					if ( ! empty( get_term_children( $cat->term_id, 'product_cat' ) ) ) {
+					if ( ! empty( get_term_children( $cat->term_id, $taxonomy ) ) ) {
 						$woo_map_term_id = 'parent-' . $cat->term_id;
 					} else {
 						$woo_map_term_id = 'child-' . $cat->parent;
 					}
-					$termchildren = ! empty( get_term_children( $cat->term_id, 'product_cat' ) ) || $cat->parent;
+					$termchildren = ! empty( get_term_children( $cat->term_id, $taxonomy ) ) || $cat->parent;
 					?>
 					<td class="<?php echo esc_attr($termchildren) ? 'group-' . esc_attr($woo_map_term_id) : ''; ?>">
 						<?php
-						$childrencat = ! empty( get_term_children( $cat->term_id, 'product_cat' ) );
+						$childrencat = ! empty( get_term_children( $cat->term_id, $taxonomy ) );
 						if ( $childrencat ) {
 							$title = esc_html_e( 'Copy this category to subcategories', 'woo-feed' );
 							echo '<span class="dashicons dashicons-arrow-down-alt" title=" ' . esc_attr($title) . '" id="cat-map-' . esc_attr($cat->term_id) . '"></span>';

@@ -42,7 +42,8 @@ class CategoryMapping {
 		}
 
 		//get product terms
-		$categories = get_the_terms( $product_id, 'product_cat' );
+		$taxonomy   = \function_exists( 'woo_feed_get_category_mapping_taxonomy' ) ? \woo_feed_get_category_mapping_taxonomy() : 'product_cat';
+		$categories = get_the_terms( $product_id, $taxonomy );
 
 
 		//get cmapping value

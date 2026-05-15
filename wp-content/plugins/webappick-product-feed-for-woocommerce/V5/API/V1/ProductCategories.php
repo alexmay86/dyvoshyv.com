@@ -83,8 +83,10 @@ class ProductCategories extends RestController {
 	public function search_categories( $request ) {
 		$search_string = $request->get_param( 'search' );
 
+		$taxonomy = \function_exists( 'woo_feed_get_category_mapping_taxonomy' ) ? \woo_feed_get_category_mapping_taxonomy() : 'product_cat';
+
 		$args = array(
-			'taxonomy'   => array( 'product_cat' ),
+			'taxonomy'   => array( $taxonomy ),
 			'orderby'    => 'id',
 			'order'      => 'DESC',
 			'hide_empty' => true,

@@ -27,7 +27,8 @@ if ( ! function_exists( 'woo_feed_get_category_mapping_value' ) ) {
         }
 
         //get product terms
-        $categories = get_the_terms( $product_id, 'product_cat' );
+        $taxonomy   = function_exists( 'woo_feed_get_category_mapping_taxonomy' ) ? woo_feed_get_category_mapping_taxonomy() : 'product_cat';
+        $categories = get_the_terms( $product_id, $taxonomy );
 
         //get cmapping value
         if ( in_array( $getValue['mappingprovider'], $suggestive_category_list_merchants ) && isset( $getValue['gcl-cmapping'] ) ) {

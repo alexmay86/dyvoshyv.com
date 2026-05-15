@@ -616,7 +616,8 @@ class ProductHelper {
 		$cmapping = self::determine_mapping_array( $mapping_settings, $suggestive_category_list_merchants );
 
 		// Retrieve product categories and process them.
-		$categories = \get_the_terms( $product_id, 'product_cat' );
+		$taxonomy   = \function_exists( 'woo_feed_get_category_mapping_taxonomy' ) ? \woo_feed_get_category_mapping_taxonomy() : 'product_cat';
+		$categories = \get_the_terms( $product_id, $taxonomy );
 		if ( \is_array( $categories ) ) {
 			foreach ( \array_reverse( $categories ) as $category ) {
 				if ( ! empty( $cmapping[ $category->term_id ] ) ) {

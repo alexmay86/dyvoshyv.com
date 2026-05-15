@@ -746,9 +746,10 @@ class DropDownOptions {
 	 * @return array
 	 */
 	public static function get_catmap_categories( $parent = 0, $dropdown = true, $selected = [], $slug = '' ) {
+		$taxonomy = \function_exists( 'woo_feed_get_category_mapping_taxonomy' ) ? \woo_feed_get_category_mapping_taxonomy() : 'product_cat';
 
 		$args = [
-			'taxonomy'     => 'product_cat',
+			'taxonomy'     => $taxonomy,
 			'parent'       => $parent,
 			'orderby'      => 'term_id',
 			'show_count'   => 1,
@@ -766,7 +767,7 @@ class DropDownOptions {
 			}
 			foreach ( $categories as $cat ) {
 				if ( ! array_key_exists( $cat->slug, self::$cats ) ) {
-					if ( ! empty( get_term_children( $cat->term_id, 'product_cat' ) ) ) {
+					if ( ! empty( get_term_children( $cat->term_id, $taxonomy ) ) ) {
 						$group_id = 'group-parent-' . $cat->term_id;
 					} else {
 						$group_id = 'group-child-' . $cat->parent;
@@ -775,7 +776,7 @@ class DropDownOptions {
 					self::$cats[ $cat->slug ] = [
 						'name'      => $slug . $cat->name,
 						'id'        => $cat->term_id,
-						'has_child' => get_term_children( $cat->term_id, 'product_cat' ),
+						'has_child' => get_term_children( $cat->term_id, $taxonomy ),
 						'group_id'  => $group_id
 					];
 					self::get_catmap_categories( $cat->term_id, false, '', $slug . $cat->name );
@@ -807,8 +808,9 @@ class DropDownOptions {
 	public static function get_categories( $args ) {
 
 		$current_language = defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : '';
+		$taxonomy         = \function_exists( 'woo_feed_get_category_mapping_taxonomy' ) ? \woo_feed_get_category_mapping_taxonomy() : 'product_cat';
 		$query_vars       = [
-			'taxonomy'     => 'product_cat',
+			'taxonomy'     => $taxonomy,
 			'orderby'      => 'term_group',
 			'show_count'   => 1,
 			'pad_counts'   => 1,

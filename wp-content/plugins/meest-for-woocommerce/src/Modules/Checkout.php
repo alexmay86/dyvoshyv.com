@@ -81,6 +81,7 @@ class Checkout
                 'id' => "{$type}_meest_region_text",
                 'default' => $address['region']['text'],
                 'required' => true,
+                'placeholder' => __('Region', MEEST_PLUGIN_DOMAIN),
             ]);
 
             woocommerce_form_field("{$type}_city_id", [
@@ -100,6 +101,7 @@ class Checkout
                 'id' => "{$type}_meest_city_text",
                 'default' => $address['city']['text'],
                 'required' => true,
+                'placeholder' => __('City', MEEST_PLUGIN_DOMAIN),
             ]);
 
             if (empty($this->options['shipping']['delivery_type'])) {
@@ -147,6 +149,7 @@ class Checkout
                 'id' => "{$type}_meest_street_text",
                 'default' => $address['street']['text'],
                 'required' => true,
+                'placeholder' => __('Street', MEEST_PLUGIN_DOMAIN),
             ]);
 
             woocommerce_form_field("{$type}_building", [
@@ -157,6 +160,7 @@ class Checkout
                 'required' => true,
                 'class' => ['form-row-first'],
                 'input_class' => ['input-text'],
+                'placeholder' => __('Building', MEEST_PLUGIN_DOMAIN),
             ]);
             woocommerce_form_field("{$type}_flat", [
                 'label' => __('Flat', MEEST_PLUGIN_DOMAIN),
@@ -166,6 +170,7 @@ class Checkout
                 'required' => false,
                 'class' => ['form-row-last'],
                 'input_class' => ['input-text'],
+                'placeholder' => __('Flat', MEEST_PLUGIN_DOMAIN),
             ]);
 
             woocommerce_form_field("{$type}_postcode", [
@@ -176,6 +181,7 @@ class Checkout
                 'required' => false,
                 'class' => ['form-row-wide'],
                 'input_class' => ['input-text'],
+                'placeholder' => pll__('Postcode'),
             ]);
 
             woocommerce_form_field("{$type}_branch_id", [

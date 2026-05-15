@@ -1465,6 +1465,8 @@ class Nav_Menu extends Base_Widget {
 			'container' => '',
 		];
 
+		if(in_array($settings['menu'], ['desktopne-meniu-en', 'desktopne-meniu-ua'])) $args['walker'] = new Custom_Menu_Walker();
+
 		if ( 'vertical' === $settings['layout'] ) {
 			$args['menu_class'] .= ' sm-vertical';
 		}
@@ -1712,4 +1714,18 @@ class Nav_Menu extends Base_Widget {
 
 		return $element_config;
 	}
+}
+
+class Custom_Menu_Walker extends \Walker_Nav_Menu {
+    function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $image = get_field('image', $item);
+        if ($image) {
+			$item->classes[] = 'menu-image';
+			$button = get_field('button', $item);
+            $custom_image = wp_get_attachment_image($image, [720, 435], false, ['class' => 'menu-image__image', 'alt' => get_the_title($image)]);
+            $item->title = $custom_image . '<div class="menu-image__inner"><div class="menu-image__inner__title">' . $item->title . '</div>' . ($button ? '<div class="menu-image__inner__button">' . $button . '</div>' : '') . '</div>';
+        }
+
+        parent::start_el($output, $item, $depth, $args, $id);
+    }
 }

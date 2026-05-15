@@ -2088,7 +2088,7 @@ class Search extends Base_Widget {
 
 		$this->add_render_attribute( $this->element_attribute_ids['form'], [
 			'class' => 'e-search-form',
-			'action' => esc_url( home_url() ),
+			'action' => esc_url( home_url() ) . (pll_current_language() === pll_default_language() ? '' : '/' . pll_current_language()),
 			'method' => 'get',
 		] );
 

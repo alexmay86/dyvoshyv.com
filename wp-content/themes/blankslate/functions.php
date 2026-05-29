@@ -612,6 +612,21 @@ function blankslate_dequeue_wpa_front_styles() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'blankslate_dequeue_wpa_front_styles', 99999 );
+
+add_action( 'wp_enqueue_scripts', 'blankslate_enqueue' );
+function blankslate_enqueue() {
+wp_enqueue_style( 'blankslate-style', get_stylesheet_uri(), array(), filemtime(get_stylesheet_directory() . '/style.css'), 'all' );
+wp_enqueue_script( 'jquery' );
+wp_dequeue_style( 'wp-block-library' );
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		wp_enqueue_script(
+			'inputmask',
+			get_template_directory_uri() . '/includes/inputMask.js',
+			array( 'jquery' ),
+			filemtime( get_template_directory() . '/includes/inputMask.js' ),
+			true
+		);
+	}
 }
 add_action( 'wp_footer', 'blankslate_footer' );
 function blankslate_footer() {

@@ -55,6 +55,12 @@ function blankslate_get_visitor_country_code() {
  * @return string
  */
 function blankslate_detect_country_from_geo_sources() {
+	static $cached = null;
+
+	if ( null !== $cached ) {
+		return $cached;
+	}
+
 	$code = blankslate_country_from_http_headers();
 
 	if ( '' === $code && class_exists( 'WOOMULTI_CURRENCY_Data' ) ) {
@@ -77,7 +83,9 @@ function blankslate_detect_country_from_geo_sources() {
 		}
 	}
 
-	return apply_filters( 'blankslate_visitor_country_code', $code );
+	$cached = apply_filters( 'blankslate_visitor_country_code', $code );
+
+	return $cached;
 }
 
 /**

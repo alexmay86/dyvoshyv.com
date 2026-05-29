@@ -1713,12 +1713,11 @@ function blankslate_product_title_plain_string( $name ) {
 
 add_filter( 'the_title', 'wrap_title_after_br_globally', 10, 2 );
 function wrap_title_after_br_globally( $title, $post_id ) {
-	if ( get_post_type( $post_id ) !== 'product' || is_admin() ) return $title;
-	if ( strpos( $title, '<br' ) !== false ) {
-		$parts = preg_split( '/<br\s*\/?>/i', $title );
-		if ( count( $parts ) > 1 ) {
-			return $parts[0] . '<span class="product-title-desc"> ' . $parts[1] . '</span>';
-		}
+	if ( is_admin() || strpos( $title, '<br' ) === false ) return $title;
+	if ( get_post_type( $post_id ) !== 'product' ) return $title;
+	$parts = preg_split( '/<br\s*\/?>/i', $title );
+	if ( count( $parts ) > 1 ) {
+		return $parts[0] . '<span class="product-title-desc"> ' . $parts[1] . '</span>';
 	}
 
 	return $title;

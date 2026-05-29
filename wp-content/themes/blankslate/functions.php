@@ -13,6 +13,228 @@ global $content_width;
 if ( !isset( $content_width ) ) { $content_width = 1920; }
 register_nav_menus( array( 'main-menu' => esc_html__( 'Main Menu', 'blankslate' ) ) );
 }
+
+/**
+ * WooCommerce PhotoSwipe is only needed on the single product gallery (lightbox).
+ * Core WC already limits enqueue, but Elementor EA Product Slider and similar call
+ * wp_enqueue_script from wp_footer for quick view — strip that everywhere else.
+ *
+ * @return bool
+ */
+function blankslate_needs_wc_photoswipe() {
+	if ( apply_filters( 'blankslate_force_wc_photoswipe', false ) ) {
+		return true;
+	}
+	if ( ! function_exists( 'is_product' ) ) {
+		return false;
+	}
+	if ( class_exists( '\Elementor\Plugin' ) ) {
+		$elementor = \Elementor\Plugin::$instance;
+		if ( isset( $elementor->editor ) && method_exists( $elementor->editor, 'is_edit_mode' ) && $elementor->editor->is_edit_mode() ) {
+			return true;
+		}
+	}
+	return is_product();
+}
+
+/**
+ * Remove every woocommerce_photoswipe callback (WC uses 10, EA uses 15; others may differ).
+ *
+ * @return void
+ */
+function blankslate_remove_woocommerce_photoswipe_from_footer() {
+	global $wp_filter;
+	if ( ! isset( $wp_filter['wp_footer'] ) || ! $wp_filter['wp_footer'] instanceof WP_Hook ) {
+		return;
+	}
+	$remove_pr = array();
+	foreach ( $wp_filter['wp_footer']->callbacks as $priority => $callbacks ) {
+		foreach ( $callbacks as $cb ) {
+			if ( isset( $cb['function'] ) && 'woocommerce_photoswipe' === $cb['function'] ) {
+				$remove_pr[] = (int) $priority;
+			}
+		}
+	}
+	foreach ( array_unique( $remove_pr ) as $p ) {
+		remove_action( 'wp_footer', 'woocommerce_photoswipe', $p );
+	}
+}
+
+/**
+ * @return void
+ */
+function blankslate_dequeue_wc_photoswipe_assets() {
+	if ( is_admin() || blankslate_needs_wc_photoswipe() ) {
+		return;
+	}
+
+	blankslate_remove_woocommerce_photoswipe_from_footer();
+
+	wp_dequeue_style( 'photoswipe' );
+	wp_dequeue_style( 'photoswipe-default-skin' );
+	wp_dequeue_script( 'photoswipe-ui-default' );
+	wp_dequeue_script( 'photoswipe' );
+
+	wp_deregister_style( 'photoswipe' );
+	wp_deregister_style( 'photoswipe-default-skin' );
+	wp_deregister_script( 'photoswipe-ui-default' );
+	wp_deregister_script( 'photoswipe' );
+}
+
+add_action( 'wp_enqueue_scripts', 'blankslate_dequeue_wc_photoswipe_assets', 100 );
+add_action( 'wp_enqueue_scripts', 'blankslate_dequeue_wc_photoswipe_assets', 1000 );
+add_action( 'wp_footer', 'blankslate_dequeue_wc_photoswipe_assets', 19 );
+
+/**
+ * Last-resort: block PhotoSwipe tags if something re-enqueues after our dequeue (or bundled output still uses WC URLs).
+ *
+ * @param string $tag
+ * @param string $handle
+ * @param string $href
+ * @return string
+ */
+function blankslate_strip_photoswipe_style_tag( $tag, $handle, $href ) {
+	if ( is_admin() || blankslate_needs_wc_photoswipe() ) {
+		return $tag;
+	}
+	if ( in_array( $handle, array( 'photoswipe', 'photoswipe-default-skin' ), true ) ) {
+		return '';
+	}
+	if ( is_string( $href ) && preg_match( '#woocommerce/assets/css/photoswipe/#', $href ) ) {
+		return '';
+	}
+	return $tag;
+}
+add_filter( 'style_loader_tag', 'blankslate_strip_photoswipe_style_tag', 99, 3 );
+
+/**
+ * @param string $tag
+ * @param string $handle
+ * @param string $src
+ * @return string
+ */
+function blankslate_strip_photoswipe_script_tag( $tag, $handle, $src ) {
+	if ( is_admin() || blankslate_needs_wc_photoswipe() ) {
+		return $tag;
+	}
+	if ( in_array( $handle, array( 'photoswipe', 'photoswipe-ui-default' ), true ) ) {
+		return '';
+	}
+	if ( is_string( $src ) && preg_match( '#woocommerce/assets/js/photoswipe/#', $src ) ) {
+		return '';
+	}
+	return $tag;
+}
+add_filter( 'script_loader_tag', 'blankslate_strip_photoswipe_script_tag', 99, 3 );
+
+/**
+ * WooCommerce Products Filter (Husky): load CSS/JS only on main Shop and product category archives.
+ * Extensions enqueue under the same plugin path; strip by URL on other views.
+ *
+ * Use add_filter( 'blankslate_force_woof_assets', '__return_true' ) if the filter appears elsewhere (shortcodes).
+ *
+ * @return bool
+ */
+function blankslate_needs_woof_catalog_assets() {
+	if ( apply_filters( 'blankslate_force_woof_assets', false ) ) {
+		return true;
+	}
+	if ( ! function_exists( 'is_shop' ) ) {
+		return false;
+	}
+	return is_shop() || is_product_category();
+}
+
+/**
+ * @return void
+ */
+function blankslate_detach_woof_outside_catalog() {
+	if ( is_admin() || blankslate_needs_woof_catalog_assets() ) {
+		return;
+	}
+	if ( ! isset( $GLOBALS['WOOF'] ) || ! is_object( $GLOBALS['WOOF'] ) ) {
+		return;
+	}
+	$woof = $GLOBALS['WOOF'];
+	remove_action( 'wp_enqueue_scripts', array( $woof, 'enqueue_scripts_styles' ) );
+	remove_action( 'wp_head', array( $woof, 'wp_load_js' ), 999 );
+	remove_action( 'wp_footer', array( $woof, 'wp_load_js' ), 11 );
+	remove_action( 'wp_footer', array( $woof, 'wp_footer' ), 999 );
+}
+add_action( 'wp', 'blankslate_detach_woof_outside_catalog', 0 );
+
+/**
+ * Dequeue any Husky assets still queued (extensions register their own hooks).
+ *
+ * @return void
+ */
+function blankslate_dequeue_woof_plugin_queued_assets() {
+	if ( is_admin() || blankslate_needs_woof_catalog_assets() ) {
+		return;
+	}
+	global $wp_scripts, $wp_styles;
+	$needle = 'woocommerce-products-filter';
+
+	if ( $wp_scripts instanceof WP_Scripts && ! empty( $wp_scripts->queue ) ) {
+		foreach ( array_values( $wp_scripts->queue ) as $handle ) {
+			if ( ! isset( $wp_scripts->registered[ $handle ] ) ) {
+				continue;
+			}
+			$src = $wp_scripts->registered[ $handle ]->src;
+			if ( is_string( $src ) && strpos( $src, $needle ) !== false ) {
+				wp_dequeue_script( $handle );
+			}
+		}
+	}
+	if ( $wp_styles instanceof WP_Styles && ! empty( $wp_styles->queue ) ) {
+		foreach ( array_values( $wp_styles->queue ) as $handle ) {
+			if ( ! isset( $wp_styles->registered[ $handle ] ) ) {
+				continue;
+			}
+			$src = $wp_styles->registered[ $handle ]->src;
+			if ( is_string( $src ) && strpos( $src, $needle ) !== false ) {
+				wp_dequeue_style( $handle );
+			}
+		}
+	}
+}
+add_action( 'wp_enqueue_scripts', 'blankslate_dequeue_woof_plugin_queued_assets', 99999 );
+add_action( 'wp_head', 'blankslate_dequeue_woof_plugin_queued_assets', 1000 );
+add_action( 'wp_footer', 'blankslate_dequeue_woof_plugin_queued_assets', 12 );
+
+/**
+ * @param string $tag
+ * @param string $handle
+ * @param string $href
+ * @return string
+ */
+function blankslate_strip_woof_style_tag( $tag, $handle, $href ) {
+	if ( is_admin() || blankslate_needs_woof_catalog_assets() ) {
+		return $tag;
+	}
+	if ( is_string( $href ) && strpos( $href, 'woocommerce-products-filter' ) !== false ) {
+		return '';
+	}
+	return $tag;
+}
+add_filter( 'style_loader_tag', 'blankslate_strip_woof_style_tag', 100, 3 );
+
+/**
+ * @param string $tag
+ * @param string $handle
+ * @param string $src
+ * @return string
+ */
+function blankslate_strip_woof_script_tag( $tag, $handle, $src ) {
+	if ( is_admin() || blankslate_needs_woof_catalog_assets() ) {
+		return $tag;
+	}
+	if ( is_string( $src ) && strpos( $src, 'woocommerce-products-filter' ) !== false ) {
+		return '';
+	}
+	return $tag;
+}
+add_filter( 'script_loader_tag', 'blankslate_strip_woof_script_tag', 100, 3 );
 add_action( 'admin_notices', 'blankslate_notice' );
 function blankslate_notice() {
 $user_id = get_current_user_id();

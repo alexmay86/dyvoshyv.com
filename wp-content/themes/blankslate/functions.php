@@ -617,6 +617,20 @@ add_action( 'wp_footer', 'blankslate_footer' );
 function blankslate_footer() {
 	wp_enqueue_script( 'theme-scripts', get_template_directory_uri() . '/includes/scripts.js', array( 'jquery' ), filemtime( get_template_directory() . '/includes/scripts.js' ), true );
 	if ( ! is_admin() ) {
+		$form_gtm_map = function_exists( 'blankslate_gtm_elementor_form_events_by_css_id' )
+			? blankslate_gtm_elementor_form_events_by_css_id()
+			: array(
+				'consultation-form' => 'send_form_personal_advice',
+				'contact-form'      => 'send_form_send_message',
+			);
+		wp_localize_script(
+			'theme-scripts',
+			'blankslateFormGtm',
+			array(
+				'byCssId' => $form_gtm_map,
+			)
+		);
+	}
 	if ( class_exists( 'WooCommerce' ) && ! is_admin() ) {
 		wp_localize_script(
 			'theme-scripts',

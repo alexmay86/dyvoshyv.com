@@ -157,3 +157,17 @@ db/header-footer-code.txt
 db/maxmind.txt
 db/maxmind.txt.rej
 wp-content/plugins/meest-for-woocommerce.1.0.6.zip
+.htaccess
+CLAUDE.md
+innodb_convert.php
+wp-config.php
+.bak
+.osp
+.user.ini
+wp-content/advanced-cache.php
+phpinfo.php
+robots.txt
+wp-content/db.php
+wp-content/object-cache.php
+wp-content/webtoffee_export/
+wp-content/index.php

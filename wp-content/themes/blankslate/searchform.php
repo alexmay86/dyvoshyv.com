@@ -1,0 +1,6 @@
+<form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url() ) . (pll_current_language() === pll_default_language() ? '' : '/' . pll_current_language()); ?>" >
+    <input type="search" class="form-control" name="s" placeholder="<?php pll_e('Search'); ?>" value="<?php echo get_search_query() ?>">
+	<button type="submit" aria-label="<?php pll_e('Search'); ?>">
+		<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M11.9444 16.1111C16.406 16.1111 20 12.5171 20 8.05556C20 3.59402 16.406 0 11.9444 0C7.48291 0 3.88889 3.59402 3.88889 8.05556C3.88889 12.5171 7.48291 16.1111 11.9444 16.1111ZM11.9444 1.23932C15.7244 1.23932 18.7607 4.27564 18.7607 8.05556C18.7607 11.8355 15.7244 14.8718 11.9444 14.8718C8.16453 14.8718 5.12821 11.8355 5.12821 8.05556C5.12821 4.27564 8.16453 1.23932 11.9444 1.23932Z" fill="#353D3B"></path><path d="M5.80473 13.2812L0 19.086L0.914017 20L6.71875 14.1953L5.80473 13.2812Z" fill="#353D3B"></path></svg>
+	</button>
+</form>

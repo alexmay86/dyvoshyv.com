@@ -546,13 +546,21 @@ function blankslate_patch_elementor_font_awesome_css_font_display() {
 		return;
 	}
 
+	$lock_key = 'blankslate_fa_font_display_patched_at';
+	$last_run = (int) get_transient( $lock_key );
+	if ( $last_run && ( time() - $last_run ) < 12 * HOUR_IN_SECONDS ) {
+		return;
+	}
+
 	$dir = WP_PLUGIN_DIR . '/elementor/assets/lib/font-awesome/css';
 	if ( ! is_dir( $dir ) ) {
+		set_transient( $lock_key, time(), 12 * HOUR_IN_SECONDS );
 		return;
 	}
 
 	$files = glob( $dir . '/*.css' );
 	if ( ! is_array( $files ) ) {
+		set_transient( $lock_key, time(), 12 * HOUR_IN_SECONDS );
 		return;
 	}
 
@@ -572,6 +580,8 @@ function blankslate_patch_elementor_font_awesome_css_font_display() {
 			file_put_contents( $file, $patched, LOCK_EX );
 		}
 	}
+
+	set_transient( $lock_key, time(), 12 * HOUR_IN_SECONDS );
 }
 add_action( 'wp_loaded', 'blankslate_patch_elementor_font_awesome_css_font_display', 21 );
 

@@ -235,6 +235,157 @@ function blankslate_strip_woof_script_tag( $tag, $handle, $src ) {
 	return $tag;
 }
 add_filter( 'script_loader_tag', 'blankslate_strip_woof_script_tag', 100, 3 );
+
+/**
+ * Elementor Nav Menu + SmartMenus add submenu aria-* on anchor tags.
+ * For parent menu items this can fail aria-role checks when interpreted as plain links.
+ * Set a role compatible with expanded/controls/haspopup at HTML generation stage.
+ */
+function blankslate_elementor_nav_parent_link_role( $atts, $item, $args, $depth ) {
+	if ( is_admin() ) {
+		return $atts;
+	}
+
+	$menu_class = isset( $args->menu_class ) ? (string) $args->menu_class : '';
+	if ( false === strpos( $menu_class, 'elementor-nav-menu' ) ) {
+		return $atts;
+	}
+
+	$item_classes = isset( $item->classes ) && is_array( $item->classes ) ? $item->classes : array();
+	if ( ! in_array( 'menu-item-has-children', $item_classes, true ) ) {
+		return $atts;
+	}
+
+	$atts['role'] = 'button';
+	return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'blankslate_elementor_nav_parent_link_role', 20, 4 );
+
+/**
+ * Patch Elementor-rendered HTML server-side for stable Lighthouse results.
+ */
+function blankslate_patch_elementor_markup_a11y( $content ) {
+	if ( is_admin() || ! is_string( $content ) || '' === $content ) {
+		return $content;
+	}
+
+	// Ensure one main landmark on Elementor page wrapper when none exists in this HTML fragment.
+	if ( false === stripos( $content, '<main' ) && false === stripos( $content, 'role="main"' ) && false === stripos( $content, "role='main'" ) ) {
+		$pattern = '/<div\b([^>]*\bdata-elementor-type=(["\'])wp-page\2[^>]*)>/i';
+		$content = preg_replace_callback(
+			$pattern,
+			static function ( $matches ) {
+				$attrs = $matches[1];
+				if ( preg_match( '/\brole\s*=\s*(["\'])main\1/i', $attrs ) ) {
+					return $matches[0];
+				}
+				$has_id = preg_match( '/\bid\s*=\s*(["\'])[^"\']+\1/i', $attrs );
+				$attrs .= ' role="main"' . ( $has_id ? '' : ' id="main-content"' );
+				return '<div' . $attrs . '>';
+			},
+			$content,
+			1
+		);
+	}
+
+	// Ensure scroll-to-top control has an accessible name.
+	$scroll_pattern = '/<a\b([^>]*\bid=(["\'])scroll-to-top\2[^>]*)>/i';
+	$content        = preg_replace_callback(
+		$scroll_pattern,
+		static function ( $matches ) {
+			$attrs = $matches[1];
+			if ( preg_match( '/\baria-label\s*=\s*(["\']).*?\1/i', $attrs ) ) {
+				return $matches[0];
+			}
+			return '<a' . $attrs . ' aria-label="Scroll to top">';
+		},
+		$content
+	);
+
+	// Woo Product Slider: icon-only "view details" links need an accessible name.
+	$details_pattern = '/<li\b[^>]*\bclass=(["\'])[^"\']*\bview-details\b[^"\']*\1[^>]*>\s*<a\b([^>]*)>/i';
+	$content         = preg_replace_callback(
+		$details_pattern,
+		static function ( $matches ) {
+			$anchor_attrs = $matches[2];
+			if ( preg_match( '/\baria-label\s*=\s*(["\']).*?\1/i', $anchor_attrs ) ) {
+				return $matches[0];
+			}
+			return preg_replace(
+				'/<a\b([^>]*)>/i',
+				'<a$1 aria-label="View product details">',
+				$matches[0],
+				1
+			);
+		},
+		$content
+	);
+
+	return $content;
+}
+add_filter( 'the_content', 'blankslate_patch_elementor_markup_a11y', 20 );
+add_filter( 'elementor/frontend/the_content', 'blankslate_patch_elementor_markup_a11y', 20 );
+
+/**
+ * theme.json / wp-fonts-local: use font-display: swap so text stays visible while fonts load (PageSpeed).
+ */
+function blankslate_theme_json_font_display_swap( $theme_json, $origin ) {
+	if ( ! class_exists( 'WP_Theme_JSON_Data' ) || ! $theme_json instanceof WP_Theme_JSON_Data ) {
+		return $theme_json;
+	}
+	$data = $theme_json->get_data();
+	if ( empty( $data['settings']['typography']['fontFamilies'] ) || ! is_array( $data['settings']['typography']['fontFamilies'] ) ) {
+		return $theme_json;
+	}
+	foreach ( $data['settings']['typography']['fontFamilies'] as $gk => $group ) {
+		if ( ! is_array( $group ) ) {
+			continue;
+		}
+		foreach ( $group as $fi => $family ) {
+			if ( empty( $family['fontFace'] ) || ! is_array( $family['fontFace'] ) ) {
+				continue;
+			}
+			foreach ( $family['fontFace'] as $vi => $face ) {
+				if ( ! is_array( $face ) ) {
+					continue;
+				}
+				$data['settings']['typography']['fontFamilies'][ $gk ][ $fi ]['fontFace'][ $vi ]['fontDisplay'] = 'swap';
+				unset( $data['settings']['typography']['fontFamilies'][ $gk ][ $fi ]['fontFace'][ $vi ]['font-display'] );
+			}
+		}
+	}
+	return new WP_Theme_JSON_Data( $data, $origin );
+}
+
+add_filter(
+	'wp_theme_json_data_default',
+	function ( $theme_json ) {
+		return blankslate_theme_json_font_display_swap( $theme_json, 'default' );
+	},
+	20
+);
+add_filter(
+	'wp_theme_json_data_theme',
+	function ( $theme_json ) {
+		return blankslate_theme_json_font_display_swap( $theme_json, 'theme' );
+	},
+	20
+);
+add_filter(
+	'wp_theme_json_data_user',
+	function ( $theme_json ) {
+		return blankslate_theme_json_font_display_swap( $theme_json, 'custom' );
+	},
+	20
+);
+add_filter(
+	'wp_theme_json_data_blocks',
+	function ( $theme_json ) {
+		return blankslate_theme_json_font_display_swap( $theme_json, 'blocks' );
+	},
+	20
+);
+
 add_action( 'admin_notices', 'blankslate_notice' );
 function blankslate_notice() {
 $user_id = get_current_user_id();
@@ -249,42 +400,252 @@ $user_id = get_current_user_id();
 if ( isset( $_GET['dismiss'] ) )
 add_user_meta( $user_id, 'blankslate_notice_dismissed_11', 'true', true );
 }
-add_action( 'wp_enqueue_scripts', 'blankslate_enqueue' );
-function blankslate_enqueue() {
-wp_enqueue_style( 'blankslate-style', get_stylesheet_uri(), array(), filemtime(get_stylesheet_directory() . '/style.css'), 'all' );
-wp_enqueue_script( 'jquery' );
+/**
+ * Drop jQuery Migrate on the frontend: core registers `jquery` with deps jquery-core + jquery-migrate.
+ * Dequeuing in wp_footer is too late; strip the dependency and deregister the script.
+ */
+function blankslate_disable_jquery_migrate_dependencies( $scripts ) {
+	if ( is_admin() ) {
+		return;
+	}
+	if ( isset( $scripts->registered['jquery'] ) ) {
+		$scripts->registered['jquery']->deps = array_values(
+			array_diff( $scripts->registered['jquery']->deps, array( 'jquery-migrate' ) )
+		);
+	}
+}
+add_action( 'wp_default_scripts', 'blankslate_disable_jquery_migrate_dependencies', 11 );
+
+function blankslate_deregister_jquery_migrate_front() {
+	if ( is_admin() ) {
+		return;
+	}
+	wp_dequeue_script( 'jquery-migrate' );
+	wp_deregister_script( 'jquery-migrate' );
+}
+add_action( 'wp_enqueue_scripts', 'blankslate_deregister_jquery_migrate_front', 100 );
+
+/**
+ * Elementor custom fonts can output inline @font-face with font-display:auto.
+ * Fallback output-buffer patch: replace to `swap` in <style id="elementor-post-*">.
+ */
+function blankslate_swap_font_display_in_elementor_post_style_tags( $html ) {
+	if ( ! is_string( $html ) || '' === $html ) {
+		return $html;
+	}
+
+	// 1) Elementor inline custom-font blocks: force font-display:auto -> swap.
+	if ( false !== stripos( $html, 'elementor-post-' ) && false !== stripos( $html, 'font-display' ) ) {
+		$html = preg_replace_callback(
+			'/<style\b([^>]*\bid=(["\'])elementor-post-[^"\']+\2[^>]*)>(.*?)<\/style>/is',
+			static function ( $matches ) {
+				$css = preg_replace( '/font-display\s*:\s*auto\s*;/i', 'font-display: swap;', $matches[3] );
+				return '<style' . $matches[1] . '>' . $css . '</style>';
+			},
+			$html
+		);
+	}
+
+	// 2) Viewport accessibility: remove user-scalable=no and unsafe maximum-scale values.
+	if ( false !== stripos( $html, 'name="viewport"' ) || false !== stripos( $html, "name='viewport'" ) ) {
+		$html = preg_replace_callback(
+			'/<meta\b[^>]*name=(["\'])viewport\1[^>]*content=(["\'])(.*?)\2[^>]*>/is',
+			static function ( $matches ) {
+				$tag     = $matches[0];
+				$content = $matches[3];
+
+				$content = preg_replace( '/\s*,?\s*user-scalable\s*=\s*no\s*/i', '', $content );
+				$content = preg_replace( '/\s*,?\s*maximum-scale\s*=\s*[0-4](?:\.\d+)?\s*/i', '', $content );
+				$content = preg_replace( '/\s*,\s*,+/', ',', $content );
+				$content = trim( preg_replace( '/\s+/', ' ', $content ), " ,\t\n\r\0\x0B" );
+				if ( '' === $content ) {
+					$content = 'width=device-width, initial-scale=1';
+				}
+
+				return preg_replace(
+					'/content=(["\']).*?\1/is',
+					'content="' . esc_attr( $content ) . '"',
+					$tag,
+					1
+				);
+			},
+			$html
+		);
+	}
+
+	return $html;
+}
+
+function blankslate_start_font_display_output_buffer() {
+	if ( is_admin() || wp_doing_ajax() || wp_is_json_request() || is_feed() || is_embed() ) {
+		return;
+	}
+	ob_start( 'blankslate_swap_font_display_in_elementor_post_style_tags' );
+}
+add_action( 'template_redirect', 'blankslate_start_font_display_output_buffer', 0 );
+
+/**
+ * Elementor stores generated post CSS in uploads/elementor/css/post-*.css.
+ * Those files may contain @font-face font-display:auto for custom fonts.
+ * Normalize them to swap periodically so PageSpeed stops flagging the font files.
+ */
+function blankslate_patch_elementor_generated_css_font_display() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$lock_key = 'blankslate_elementor_css_font_display_patched_at';
+	$last_run = (int) get_transient( $lock_key );
+	if ( $last_run && ( time() - $last_run ) < 12 * HOUR_IN_SECONDS ) {
+		return;
+	}
+
+	$uploads = wp_get_upload_dir();
+	if ( empty( $uploads['basedir'] ) ) {
+		return;
+	}
+
+	$dir = trailingslashit( $uploads['basedir'] ) . 'elementor/css';
+	if ( ! is_dir( $dir ) ) {
+		set_transient( $lock_key, time(), 12 * HOUR_IN_SECONDS );
+		return;
+	}
+
+	$files = glob( $dir . '/post-*.css' );
+	if ( ! is_array( $files ) || empty( $files ) ) {
+		set_transient( $lock_key, time(), 12 * HOUR_IN_SECONDS );
+		return;
+	}
+
+	foreach ( $files as $file ) {
+		if ( ! is_string( $file ) || ! is_file( $file ) || ! is_readable( $file ) || ! is_writable( $file ) ) {
+			continue;
+		}
+
+		$css = file_get_contents( $file );
+		if ( ! is_string( $css ) || false === stripos( $css, 'font-display' ) ) {
+			continue;
+		}
+
+		$patched = preg_replace( '/font-display\s*:\s*(auto|fallback|block)\s*;/i', 'font-display: swap;', $css );
+		if ( is_string( $patched ) && $patched !== $css ) {
+			file_put_contents( $file, $patched, LOCK_EX );
+		}
+	}
+
+	set_transient( $lock_key, time(), 12 * HOUR_IN_SECONDS );
+}
+add_action( 'wp_loaded', 'blankslate_patch_elementor_generated_css_font_display', 20 );
+
+/**
+ * Elementor ships Font Awesome under assets/lib/font-awesome/css with font-display:block.
+ * Lighthouse expects swap/optional; patch those files in place (restored on Elementor update).
+ */
+function blankslate_patch_elementor_font_awesome_css_font_display() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$dir = WP_PLUGIN_DIR . '/elementor/assets/lib/font-awesome/css';
+	if ( ! is_dir( $dir ) ) {
+		return;
+	}
+
+	$files = glob( $dir . '/*.css' );
+	if ( ! is_array( $files ) ) {
+		return;
+	}
+
+	foreach ( $files as $file ) {
+		if ( ! is_string( $file ) || ! is_file( $file ) || ! is_readable( $file ) || ! is_writable( $file ) ) {
+			continue;
+		}
+		if ( filesize( $file ) > 3 * MB_IN_BYTES ) {
+			continue;
+		}
+		$css = file_get_contents( $file );
+		if ( ! is_string( $css ) || ! preg_match( '/font-display\s*:\s*block\s*;/i', $css ) ) {
+			continue;
+		}
+		$patched = preg_replace( '/font-display\s*:\s*block\s*;/i', 'font-display: swap;', $css );
+		if ( is_string( $patched ) && $patched !== $css ) {
+			file_put_contents( $file, $patched, LOCK_EX );
+		}
+	}
+}
+add_action( 'wp_loaded', 'blankslate_patch_elementor_font_awesome_css_font_display', 21 );
+
+/**
+ * Unload WP Armor (wpa.css) on the frontend for guests and non-editorial roles.
+ * Keeps stylesheet for administrator + editor (roles that use WPA tooling in practice).
+ */
+function blankslate_should_load_wpa_front_styles() {
+	if ( ! is_user_logged_in() ) {
+		return false;
+	}
+	$user  = wp_get_current_user();
+	$roles = (array) $user->roles;
+	return (bool) array_intersect( array( 'administrator', 'editor' ), $roles );
+}
+
+function blankslate_style_src_is_wpa_plugin( $src ) {
+	if ( ! is_string( $src ) || $src === '' ) {
+		return false;
+	}
+	return ( false !== strpos( $src, 'wpa.min.css' ) || false !== strpos( $src, 'wpa.css' ) );
+}
+
+function blankslate_dequeue_wpa_front_styles() {
+	if ( is_admin() || blankslate_should_load_wpa_front_styles() ) {
+		return;
+	}
+	global $wp_styles;
+	if ( ! ( $wp_styles instanceof WP_Styles ) ) {
+		return;
+	}
+	foreach ( $wp_styles->registered as $handle => $style ) {
+		if ( empty( $style->src ) || ! blankslate_style_src_is_wpa_plugin( $style->src ) ) {
+			continue;
+		}
+		wp_dequeue_style( $handle );
+		wp_deregister_style( $handle );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'blankslate_dequeue_wpa_front_styles', 99999 );
 }
 add_action( 'wp_footer', 'blankslate_footer' );
 function blankslate_footer() {
+	wp_enqueue_script( 'theme-scripts', get_template_directory_uri() . '/includes/scripts.js', array( 'jquery' ), filemtime( get_template_directory() . '/includes/scripts.js' ), true );
+	if ( ! is_admin() ) {
+	if ( class_exists( 'WooCommerce' ) && ! is_admin() ) {
+		wp_localize_script(
+			'theme-scripts',
+			'blankslateCartAjax',
+			array(
+				'wcAjaxUrl'              => WC_AJAX::get_endpoint( 'blankslate_update_cart_qty' ),
+				'addToCartUrl'           => WC_AJAX::get_endpoint( 'add_to_cart' ),
+				'fragmentsUrl'           => WC_AJAX::get_endpoint( 'get_refreshed_fragments' ),
+				'adminAjaxUrl'           => admin_url( 'admin-ajax.php' ),
+				'elementorMcNonce'       => wp_create_nonce( 'elementor-menu-cart-fragments' ),
+				'nonce'                  => wp_create_nonce( 'woocommerce-cart' ),
+				'singleProductAtc'       => is_product(),
+				'sideCartTableSelector'  => function_exists( 'blankslate_get_side_cart_table_fragment_selector' )
+					? blankslate_get_side_cart_table_fragment_selector()
+					: '#custom-side-cart .elementor-widget-wl-cart-table-list .elementor-widget-container',
+				'sideCartTotalsSelector' => '#custom-side-cart .blankslate-side-cart-totals',
+			)
+		);
+	}
+	if ( ! is_admin() ) {
+		wp_enqueue_script(
+			'blankslate-a11y-accessible-names',
+			get_template_directory_uri() . '/includes/a11y-accessible-names.js',
+			array( 'theme-scripts' ),
+			filemtime( get_template_directory() . '/includes/a11y-accessible-names.js' ),
+			true
+		);
+	}
 ?>
-<script>
-jQuery(document).ready(function($) {
-var deviceAgent = navigator.userAgent.toLowerCase();
-if (deviceAgent.match(/(iphone|ipod|ipad)/)) {
-$("html").addClass("ios");
-$("html").addClass("mobile");
-}
-if (deviceAgent.match(/(Android)/)) {
-$("html").addClass("android");
-$("html").addClass("mobile");
-}
-if (navigator.userAgent.search("MSIE") >= 0) {
-$("html").addClass("ie");
-}
-else if (navigator.userAgent.search("Chrome") >= 0) {
-$("html").addClass("chrome");
-}
-else if (navigator.userAgent.search("Firefox") >= 0) {
-$("html").addClass("firefox");
-}
-else if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
-$("html").addClass("safari");
-}
-else if (navigator.userAgent.search("Opera") >= 0) {
-$("html").addClass("opera");
-}
-});
-</script>
 <?php
 }
 add_filter( 'document_title_separator', 'blankslate_document_title_separator' );

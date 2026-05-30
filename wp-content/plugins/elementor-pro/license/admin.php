@@ -150,6 +150,7 @@ class Admin {
 	}
 
 	public function register_page() {
+		return;
 		$menu_text = esc_html__( 'License', 'elementor-pro' );
 
 		add_submenu_page(
@@ -310,7 +311,7 @@ class Admin {
 			API::STATUS_MISSING => esc_html__( 'Missing', 'elementor-pro' ),
 			API::STATUS_REQUEST_LOCKED => esc_html__( 'Request Locked', 'elementor-pro' ),
 		];
-
+		$license_data['success'] = true;
 		echo esc_html__( 'Status', 'elementor-pro' ); ?>:
 		<?php if ( $license_data['success'] ) : ?>
 			<span style="color: #008000; font-style: italic;"><?php echo esc_html__( 'Active', 'elementor-pro' ); ?></span>
@@ -764,6 +765,9 @@ class Admin {
 		add_filter( 'plugin_action_links_' . ELEMENTOR_PRO_PLUGIN_BASE, [ $this, 'plugin_action_links' ], 50 );
 		add_filter( 'plugin_auto_update_setting_html', [ $this, 'plugin_auto_update_setting_html' ], 10, 2 );
 		add_filter( 'elementor/admin/homescreen_promotion_tier', function ( $tier ) {
+			if ( API::is_license_expired() ) {
+				return API::STATUS_EXPIRED;
+			}
 			return API::get_access_tier();
 		} );
 

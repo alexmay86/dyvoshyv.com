@@ -2480,20 +2480,13 @@ ul.woof_list li:last-child {
     vertical-align: top
 }
 
-
-
 .elementor-loop-container .product-name a {
-
     font-weight: 500;
-
     font-family: "Open Sans", sans-serif;
-
 }
 
-
-
-.elementor-widget-loop-carousel .elementor-swiper-button.elementor-swiper-button-next svg,
-.elementor-widget-loop-carousel .elementor-swiper-button.elementor-swiper-button-prev svg {
+.elementor-widget-loop-carousel:not(.products-slider) .elementor-swiper-button.elementor-swiper-button-next svg,
+.elementor-widget-loop-carousel:not(.products-slider) .elementor-swiper-button.elementor-swiper-button-prev svg {
     fill: none!important
 }
 

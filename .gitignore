@@ -49,6 +49,7 @@ Thumbs.db
 *.wmv
 
 srdb1243/
+build/
 wp-admin/
 wp-content/ewww/
 wp-content/cache/
@@ -100,7 +101,6 @@ wp-content/plugins/polylang/
 wp-content/plugins/page-loader/
 wp-content/plugins/pages-with-category-and-tag/
 wp-content/plugins/mousewheel-smooth-scroll/
-wp-content/mu-plugins/
 wp-config-sample.php
 wp-cron.php
 wp-links-opml.php
@@ -171,3 +171,4 @@ wp-content/db.php
 wp-content/object-cache.php
 wp-content/webtoffee_export/
 wp-content/index.php
+wp-content/plugins/query-monitor/

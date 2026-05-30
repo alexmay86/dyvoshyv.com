@@ -1051,6 +1051,12 @@ jQuery(function($) {
                     var pendingLinePrices =
                         resp.data && resp.data.line_prices ? resp.data.line_prices : null;
 
+                    // Fire the Elementor menu-cart refresh in parallel with the WC
+                    // fragments request: both depend only on the qty update above and
+                    // not on each other, so running them concurrently removes one full
+                    // round-trip from the critical path.
+                    blankslateRefreshElementorMenuCartFragments();
+
                     blankslateRefreshWcFragments().done(function (fragResp) {
                         if (fragResp && fragResp.fragments) {
                             blankslateApplyCartFragments(fragResp);
@@ -1080,7 +1086,6 @@ jQuery(function($) {
                         if (cartWasOpen) {
                             blankslateOpenSideCart();
                         }
-                        blankslateRefreshElementorMenuCartFragments();
                     });
                 })
                 .fail(function (xhr) {

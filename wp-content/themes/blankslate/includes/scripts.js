@@ -964,6 +964,19 @@ jQuery(function($) {
             return $.post(blankslateCartAjax.fragmentsUrl, { time: new Date().getTime() }, null, 'json');
         }
 
+        // Fetch a fresh cart nonce from an uncached wc-ajax endpoint and update the
+        // localized values. Used to recover when the page-cached nonce has expired
+        // (WP Rocket caches the page; WooCommerce nonces live only ~12-24h).
+        function blankslateRefreshCartNonce() {
+            if (!blankslateCartAjax.nonceUrl) return $.Deferred().reject().promise();
+            return $.post(blankslateCartAjax.nonceUrl, {}, function (resp) {
+                if (resp && resp.success && resp.data) {
+                    if (resp.data.nonce) blankslateCartAjax.nonce = resp.data.nonce;
+                    if (resp.data.elementorMcNonce) blankslateCartAjax.elementorMcNonce = resp.data.elementorMcNonce;
+                }
+            }, 'json');
+        }
+
         function blankslateRefreshElementorMenuCartFragments() {
             var dfd = $.Deferred();
             if (
@@ -1031,6 +1044,7 @@ jQuery(function($) {
             var cartWasOpen = document.getElementById('custom-side-cart') &&
                 document.getElementById('custom-side-cart').classList.contains('open');
 
+            function blankslatePostQty(isRetry) {
             $.post(
                 blankslateCartAjax.wcAjaxUrl,
                 {
@@ -1089,6 +1103,13 @@ jQuery(function($) {
                     });
                 })
                 .fail(function (xhr) {
+                    // Stale page-cached nonce -> fetch a fresh one and retry once.
+                    if (!isRetry && xhr && xhr.status === 403) {
+                        blankslateRefreshCartNonce().always(function () {
+                            blankslatePostQty(true);
+                        });
+                        return;
+                    }
                     var msg = '';
                     if (xhr.responseJSON && xhr.responseJSON.data) {
                         if (typeof xhr.responseJSON.data === 'string') msg = xhr.responseJSON.data;
@@ -1096,6 +1117,9 @@ jQuery(function($) {
                     }
                     if (msg) window.alert(msg);
                 });
+            }
+
+            blankslatePostQty(false);
         }
 
         $(document).on('click', miniCartQtySelector, function (e) {

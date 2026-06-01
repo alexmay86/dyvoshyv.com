@@ -664,6 +664,7 @@ function blankslate_footer() {
 				'wcAjaxUrl'              => WC_AJAX::get_endpoint( 'blankslate_update_cart_qty' ),
 				'addToCartUrl'           => WC_AJAX::get_endpoint( 'add_to_cart' ),
 				'fragmentsUrl'           => WC_AJAX::get_endpoint( 'get_refreshed_fragments' ),
+				'nonceUrl'               => WC_AJAX::get_endpoint( 'blankslate_cart_nonce' ),
 				'adminAjaxUrl'           => admin_url( 'admin-ajax.php' ),
 				'elementorMcNonce'       => wp_create_nonce( 'elementor-menu-cart-fragments' ),
 				'nonce'                  => wp_create_nonce( 'woocommerce-cart' ),

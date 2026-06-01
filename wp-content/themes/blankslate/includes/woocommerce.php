@@ -581,6 +581,26 @@ function blankslate_wc_ajax_update_cart_qty() {
 add_action( 'wc_ajax_blankslate_update_cart_qty', 'blankslate_wc_ajax_update_cart_qty' );
 
 /**
+ * AJAX: return fresh cart nonces.
+ *
+ * The nonces localized into the page (blankslateCartAjax) are baked into the HTML and
+ * therefore frozen by page cache (WP Rocket). A WooCommerce nonce only lives ~12-24h, so
+ * once a cached page outlives the nonce, the qty handler rejects it with "Invalid nonce".
+ * This endpoint is served via wc-ajax (never cached) so the client can refresh the nonce
+ * on demand (lazily / on 403 retry) instead of relying on the cached value.
+ */
+function blankslate_wc_ajax_cart_nonce() {
+	wp_send_json_success(
+		array(
+			'nonce'            => wp_create_nonce( 'woocommerce-cart' ),
+			'elementorMcNonce' => wp_create_nonce( 'elementor-menu-cart-fragments' ),
+		)
+	);
+}
+
+add_action( 'wc_ajax_blankslate_cart_nonce', 'blankslate_wc_ajax_cart_nonce' );
+
+/**
  * Не додавати варіативний батьківський товар без обраної варіації (захист від подвійного AJAX).
  *
  * @param bool $passed     Validation result.

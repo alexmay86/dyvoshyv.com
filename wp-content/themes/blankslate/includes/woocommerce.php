@@ -206,28 +206,219 @@ add_filter('woocommerce_cart_shipping_method_full_label', function ($label, $met
 
 /* COUNTRIES FIELD SYNCHRONIZATION */
 function synchronize_country() {
-    if(is_checkout()) { ?>
-        <script>
-        jQuery(document).ready(function($) {
-            $('#billing_meest_country_id').on('change', function() {
-                /*const country = $(this).find('option:selected').text();
-                if($('#billing_country').length) {
-                    var shipping_country = $('#billing_country').find('option').filter(function() {
-                        return $(this).text() === country
-                    }).val();
-                    console.log(shipping_country);
-                    $('#billing_country').val(shipping_country).change();
-                }*/
-                setTimeout(function () {
-                    const country = $('#billing_meest_country').val();
-                    if ($('#billing_country').length) {
-                        $('#billing_country').val(country).trigger('change');
-                    }
-                }, 0); // Delay to allow DOM update to finish
+    if ( ! is_checkout() ) {
+        return;
+    }
+    $meest_ajax = admin_url( 'admin-ajax.php', 'relative' );
+    ?>
+    <script>
+    jQuery(function($) {
+        var syncingCountry = false;
+        var meestAjaxUrl = <?php echo wp_json_encode( $meest_ajax ); ?>;
+
+        function syncMeestToBilling(code) {
+            var $billing = $('#billing_country');
+            if (!code || !$billing.length || $billing.val() === code) {
+                return;
+            }
+            syncingCountry = true;
+            $billing.val(code).trigger('change');
+            syncingCountry = false;
+        }
+
+        function applyMeestCountry(country) {
+            var $select = $('#billing_meest_country_id');
+            if (!country || !country.code || !$select.length) {
+                return;
+            }
+
+            syncingCountry = true;
+            $('#billing_meest_country').val(country.code);
+            $('#billing_meest_country_text').val(country.text || '');
+
+            if ($select.find('option[value="' + country.id + '"]').length === 0) {
+                $select.append(new Option(country.text || country.code, country.id, true, true));
+            }
+            $select.val(country.id).trigger('change');
+            $select.trigger({
+                type: 'select2:select',
+                params: { data: country }
             });
+            syncingCountry = false;
+        }
+
+        function fetchMeestCountryByCode(code, done) {
+            if (!code || typeof meest === 'undefined') {
+                done(null);
+                return;
+            }
+
+            var $billing = $('#billing_country');
+            var searchText = $billing.find('option:selected').text() || code;
+
+            $.post(meest.ajaxUrl || meestAjaxUrl, {
+                action: meest.actions.get_country,
+                text: searchText
+            }).done(function(countries) {
+                var match = (countries || []).find(function(item) {
+                    return item.code === code;
+                });
+
+                if (match) {
+                    done(match);
+                    return;
+                }
+
+                $.post(meest.ajaxUrl || meestAjaxUrl, {
+                    action: meest.actions.get_country,
+                    text: ''
+                }).done(function(allCountries) {
+                    done((allCountries || []).find(function(item) {
+                        return item.code === code;
+                    }) || null);
+                }).fail(function() {
+                    done(null);
+                });
+            }).fail(function() {
+                done(null);
+            });
+        }
+
+        function syncBillingToMeest(code) {
+            if (!code) {
+                return;
+            }
+
+            if ($('#billing_meest_country').val() === code) {
+                enforceShippingUi(code);
+                return;
+            }
+
+            fetchMeestCountryByCode(code, function(country) {
+                if (country) {
+                    applyMeestCountry(country);
+                } else {
+                    syncingCountry = true;
+                    $('#billing_meest_country').val(code);
+                    syncingCountry = false;
+                }
+                enforceShippingUi(code);
+            });
+        }
+
+        function selectShippingMethodForCountry(code) {
+            var isUA = code === 'UA';
+            var $methods = $('#shipping_method input[type="radio"]');
+            var $target = null;
+
+            if (!$methods.length) {
+                return;
+            }
+
+            $methods.each(function() {
+                var val = $(this).val() || '';
+                if (isUA && val.indexOf('nova_poshta') >= 0) {
+                    $target = $(this);
+                } else if (!isUA && val.indexOf('meest') >= 0) {
+                    $target = $(this);
+                }
+            });
+
+            if ($target && !$target.prop('checked')) {
+                $target.prop('checked', true).trigger('click').trigger('change');
+                $('.custom-shipping-methods input[value="' + $target.val() + '"]').prop('checked', true);
+            }
+        }
+
+        function toggleShippingForms(code) {
+            var isUA = code === 'UA';
+
+            if (isUA) {
+                $('#billing_meest_form').hide();
+                $('.wcus-checkout-fields').show();
+            } else {
+                $('.wcus-checkout-fields').hide();
+            }
+        }
+
+        function enforceShippingUi(code) {
+            if (!code) {
+                return;
+            }
+            toggleShippingForms(code);
+            selectShippingMethodForCountry(code);
+        }
+
+        function getPreferredCountryCode() {
+            var billingCode = $('#billing_country').val();
+            var meestCode = $('#billing_meest_country').val();
+            var $selected = $('#shipping_method input[type="radio"]:checked');
+            var methodVal = $selected.val() || '';
+
+            if (methodVal.indexOf('meest') >= 0 && meestCode) {
+                return meestCode;
+            }
+            if (methodVal.indexOf('nova_poshta') >= 0 && billingCode) {
+                return billingCode;
+            }
+
+            return billingCode || meestCode;
+        }
+
+        function reconcileCountries() {
+            var billingCode = $('#billing_country').val();
+            var meestCode = $('#billing_meest_country').val();
+            var preferred = getPreferredCountryCode();
+
+            if (billingCode && meestCode && billingCode !== meestCode) {
+                if (preferred === meestCode) {
+                    syncMeestToBilling(meestCode);
+                } else {
+                    syncBillingToMeest(billingCode);
+                }
+                return;
+            }
+
+            enforceShippingUi(preferred);
+        }
+
+        $(document.body).on('select2:select', '#billing_meest_country_id', function(e) {
+            if (syncingCountry || !e.params || !e.params.data || !e.params.data.code) {
+                return;
+            }
+            syncMeestToBilling(e.params.data.code);
+            enforceShippingUi(e.params.data.code);
         });
-        </script>
-    <?php }
+
+        $(document.body).on('change', '#billing_meest_country_id', function() {
+            if (syncingCountry) {
+                return;
+            }
+            setTimeout(function() {
+                var code = $('#billing_meest_country').val();
+                if (code) {
+                    syncMeestToBilling(code);
+                    enforceShippingUi(code);
+                }
+            }, 0);
+        });
+
+        $(document.body).on('change', '#billing_country', function() {
+            if (syncingCountry) {
+                return;
+            }
+            var code = $(this).val();
+            syncBillingToMeest(code);
+        });
+
+        $(document.body).on('updated_checkout', function() {
+            reconcileCountries();
+        });
+
+        reconcileCountries();
+    });
+    </script>
+    <?php
 }
 add_action('wp_footer', 'synchronize_country');
 

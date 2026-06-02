@@ -7843,15 +7843,9 @@ form.woocommerce-checkout:not(.checkout-steps-first):not(.checkout-steps-second)
 
 }
 
-
-
-.woocommerce-order-received .woocommerce-order > *:not(.woocommerce-order-summary):not(.woocommerce-order-details) {
-
+.woocommerce-order-received .woocommerce-order:has(.woocommerce-order-summary):has(.woocommerce-order-details) > *:not(.woocommerce-order-summary):not(.woocommerce-order-details) {
     display: none
-
 }
-
-
 
 .elementor-widget-woocommerce-checkout-page .woocommerce .woocommerce-table--order-details tfoot:not(:last-child) tr:last-child td,
 

@@ -1439,6 +1439,9 @@ if ( file_exists( get_template_directory() . '/includes/visitor-country.php' ) )
 if ( file_exists( get_template_directory() . '/includes/polylang-geo-language.php' ) ) {
 	require_once get_template_directory() . '/includes/polylang-geo-language.php';
 }
+if ( file_exists( get_template_directory() . '/includes/polylang-wc-no-price-sync.php' ) ) {
+	require_once get_template_directory() . '/includes/polylang-wc-no-price-sync.php';
+}
 
 
 /* Elementor Pro Theme Builder: Single Product → Products → Simple product / Variable product (Display Conditions). */
